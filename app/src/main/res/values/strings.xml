@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Pregnancyz</string>
+    <string name="loginscreen">LoginScreen</string>
+    <string name="registerscreen">RegisterScreen</string>
+    <string name="splashscreen">SplashScreen</string>
+    <string name="formscreen">FormScreen</string>
+    <string name="article">Article</string>
+    <string name="tools">Tools</string>
+    <string name="home">Home</string>
+    <string name="homescreen">HomeScreen</string>
+    <string name="toolsscreen">ToolsScreen</string>
+    <string name="articlescreen">ArticleScreen</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="password">Password</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="show_password">Show Password</string>
+    <string name="register">Register</string>
+    <string name="close">Close</string>
+</resources>
