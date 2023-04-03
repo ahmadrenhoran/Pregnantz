@@ -24,6 +24,8 @@ fun PasswordField(
     onValueChange: (String) -> Unit,
     passwordVisibility: Boolean,
     onClickPasswordVisibility: () -> Unit,
+    supportingText: String = "",
+    isError: Boolean = false,
     keyboardActions: KeyboardActions
 ) {
     OutlinedTextField(
@@ -43,6 +45,12 @@ fun PasswordField(
                 style = MaterialTheme.typography.bodyLarge
             )
         },
+        supportingText = {
+            if (isError) {
+                Text(text = supportingText)
+            }
+        },
+        isError = isError,
         trailingIcon = {
             IconButton(onClick = onClickPasswordVisibility ) {
                 Icon(

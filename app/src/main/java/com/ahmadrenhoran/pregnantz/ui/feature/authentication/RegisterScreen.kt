@@ -1,5 +1,6 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.authentication
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ahmadrenhoran.pregnantz.R
+import com.ahmadrenhoran.pregnantz.core.Constants
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.ui.feature.authentication.component.*
 
@@ -36,13 +38,9 @@ fun RegisterScreen(
     val uiState = viewModel.uiState.collectAsState().value
     val focusManager = LocalFocusManager.current
     val keyboard = LocalSoftwareKeyboardController.current
-    if (viewModel.emailResponseSignUp == Response.Loading) {
-        SignUpWithEmailResponse(onSuccessSignUp = { signUp ->
-            if (signUp) { // if the Response.Success when sign up is true
-                onSuccessSignUp()
-            }
-        })
-    } else {
+    val isEmailValid = viewModel.isEmailValid.collectAsState().value
+    val isPasswordValid = viewModel.isPasswordValid.collectAsState().value
+    if (viewModel.emailResponseSignUp != Response.Loading) {
         Column(
             modifier = modifier
                 .padding(start = 24.dp, end = 24.dp, bottom = 12.dp)
@@ -68,7 +66,8 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(16.dp))
             EmailField(
                 email = uiState.email,
-                onValueChange = { viewModel.setEmail(it) },
+                onValueChange = { viewModel.setEmail(it) }, isError = !isEmailValid,
+                supportingText = "Email format is not valid",
                 keyboardActions = KeyboardActions(
                     onNext = {
                         focusManager.moveFocus(FocusDirection.Down)
@@ -78,9 +77,13 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(16.dp))
             PasswordField(
                 password = uiState.password,
-                onValueChange = { viewModel.setPassword(it) },
+                onValueChange = {
+                    viewModel.setPassword(it)
+                },
                 passwordVisibility = uiState.passwordVisibility,
                 onClickPasswordVisibility = { viewModel.setPasswordVisibility(!uiState.passwordVisibility) },
+                isError = !isPasswordValid,
+                supportingText = "The password should consist of at least 8 characters with a minimum of 1 number.",
                 keyboardActions = KeyboardActions(
                     onDone = {
 
@@ -115,5 +118,10 @@ fun RegisterScreen(
             )
         }
     }
+    SignUpWithEmailResponse(onSuccessSignUp = { signUp ->
+        if (signUp) { // if the Response.Success when sign up is true
+            onSuccessSignUp()
+        }
+    })
 
 }

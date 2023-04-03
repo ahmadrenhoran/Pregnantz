@@ -30,9 +30,12 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier) {
                 }
             }
             composable(route = PregnantzAuthScreen.Login.name) {
-                LoginScreen() {
-                    appState.navController.navigate(route = PregnantzAuthScreen.Register.name)
-                }
+                LoginScreen(
+                    onClickableTextRegister = { appState.navController.navigate(route = PregnantzAuthScreen.Register.name) },
+                    onSuccessSignIn = {
+
+                    }
+                )
             }
             composable(route = PregnantzAuthScreen.Register.name) {
                 RegisterScreen(

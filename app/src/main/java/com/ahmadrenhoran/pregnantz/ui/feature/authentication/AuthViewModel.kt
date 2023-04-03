@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ahmadrenhoran.pregnantz.core.Utils
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.domain.repository.SignInWithEmailResponse
 import com.ahmadrenhoran.pregnantz.domain.repository.SignUpWithEmailResponse
@@ -30,23 +31,40 @@ class AuthViewModel @Inject constructor(private val authUseCases: AuthUseCases) 
     var emailResponseSignUp by mutableStateOf<SignUpWithEmailResponse>(Response.Success(false))
         private set
 
+    var isEmailValid = MutableStateFlow(true)
+        private set
+
+    var isPasswordValid = MutableStateFlow(true)
+        private set
+
     fun login() = viewModelScope.launch {
         emailResponseSignIn = Response.Loading
-        emailResponseSignIn = authUseCases.signInWithEmail(uiState.value.email, uiState.value.password)
+        emailResponseSignIn =
+            authUseCases.signInWithEmail(uiState.value.email, uiState.value.password)
     }
 
     fun register() = viewModelScope.launch {
-        emailResponseSignUp = Response.Loading
-        emailResponseSignUp = authUseCases.signUpWithEmail(uiState.value.email, uiState.value.password)
+        validatingEmailAndPassword()
+        if (isEmailValid.value && isPasswordValid.value) {
+            emailResponseSignUp = Response.Loading
+            emailResponseSignUp = authUseCases.signUpWithEmail(uiState.value.email, uiState.value.password)
+        }
+    }
+
+    fun validatingEmailAndPassword() {
+        isEmailValid.value = Utils.isEmailValid(_uiState.value.email)
+        isPasswordValid.value = Utils.isPasswordValid(_uiState.value.password)
     }
 
     fun setEmail(email: String) {
+        isEmailValid.value = Utils.isEmailValid(email)
         _uiState.update {
             it.copy(email = email)
         }
     }
 
     fun setPassword(password: String) {
+        isPasswordValid.value = Utils.isPasswordValid(password)
         _uiState.update {
             it.copy(password = password)
         }
@@ -57,4 +75,5 @@ class AuthViewModel @Inject constructor(private val authUseCases: AuthUseCases) 
             it.copy(passwordVisibility = passwordVisibility)
         }
     }
+
 }

@@ -18,14 +18,37 @@ import com.ahmadrenhoran.pregnantz.R
 
 
 @Composable
-fun EmailField(modifier: Modifier = Modifier, email: String, onValueChange: (String) -> Unit, keyboardActions: KeyboardActions) {
+fun EmailField(
+    modifier: Modifier = Modifier,
+    email: String,
+    onValueChange: (String) -> Unit,
+    supportingText: String = "",
+    isError: Boolean = false,
+    keyboardActions: KeyboardActions
+) {
     OutlinedTextField(
         modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.small,
         value = email,
         onValueChange = onValueChange,
-        label = { Text(stringResource(R.string.email), style = MaterialTheme.typography.bodyLarge) },
-        placeholder = { Text(stringResource(R.string.enter_email), style = MaterialTheme.typography.bodyLarge) },
+        label = {
+            Text(
+                stringResource(R.string.email),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        },
+        placeholder = {
+            Text(
+                stringResource(R.string.enter_email),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        },
+        supportingText = {
+            if (isError) {
+                Text(text = supportingText)
+            }
+        },
+        isError = isError,
         trailingIcon = {
             Icon(
                 Icons.Outlined.AlternateEmail,

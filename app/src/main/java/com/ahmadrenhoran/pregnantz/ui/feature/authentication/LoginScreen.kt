@@ -40,12 +40,6 @@ fun LoginScreen(
     val focusManager = LocalFocusManager.current
     val keyboard = LocalSoftwareKeyboardController.current
     if (viewModel.emailResponseSignIn == Response.Loading) {
-        SignInWithEmailResponse(onSuccessSignIn = { signIn ->
-            if (signIn) {
-                onSuccessSignIn()
-            }
-        })
-    } else {
         Column(
             modifier = modifier
                 .padding(start = 24.dp, end = 24.dp, bottom = 12.dp)
@@ -118,4 +112,9 @@ fun LoginScreen(
             )
         }
     }
+    SignInWithEmailResponse(onSuccessSignIn = { signIn ->
+        if (signIn) {
+            onSuccessSignIn()
+        }
+    })
 }
