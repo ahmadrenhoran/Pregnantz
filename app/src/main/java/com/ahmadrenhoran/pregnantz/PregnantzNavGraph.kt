@@ -9,7 +9,10 @@ import androidx.navigation.compose.composable
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzAuthScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.authentication.LoginScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.authentication.RegisterScreen
+import com.ahmadrenhoran.pregnantz.ui.feature.form.FormScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.splashscreen.SplashScreen
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun PregnantzNavGraph(modifier: Modifier = Modifier) {
@@ -22,11 +25,18 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier) {
         ) {
             composable(route = PregnantzAuthScreen.Splash.name) {
                 SplashScreen {
-                    appState.navController.navigate(route = PregnantzAuthScreen.Login.name) {
+
+                    appState.navController.navigate(route = PregnantzAuthScreen.Form.name) {
                         popUpTo(PregnantzAuthScreen.Splash.name) {
                             inclusive = true
                         }
                     }
+
+//                    appState.navController.navigate(route = PregnantzAuthScreen.Login.name) {
+//                        popUpTo(PregnantzAuthScreen.Splash.name) {
+//                            inclusive = true
+//                        }
+//                    }
                 }
             }
             composable(route = PregnantzAuthScreen.Login.name) {
@@ -41,11 +51,11 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier) {
                 RegisterScreen(
                     onClickableTextRegister = { appState.navController.navigateUp() },
                     onSuccessSignUp = {
-                        appState.navController.navigateUp()
+                        appState.navController.navigate(route = PregnantzAuthScreen.Form.name)
                     })
             }
             composable(route = PregnantzAuthScreen.Form.name) {
-
+                FormScreen()
             }
         }
 

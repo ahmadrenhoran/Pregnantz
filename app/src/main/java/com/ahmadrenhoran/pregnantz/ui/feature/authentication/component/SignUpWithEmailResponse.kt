@@ -24,11 +24,16 @@ fun SignUpWithEmailResponse(
                 onSuccessSignUp(signUp)
             }
         }
-        is Response.Failure -> {
+        is Response.Failure -> signUpResponse.apply {
             var errorDialogPopupShown by remember { mutableStateOf(false) }
+            var errorDesc by remember { mutableStateOf("") }
+            LaunchedEffect(e) {
+                errorDesc = e.localizedMessage
+                errorDialogPopupShown = true
+            }
             if (errorDialogPopupShown) {
                 Dialog(
-                    text = signUpResponse.e.localizedMessage ?: ""
+                    text = errorDesc
                 ) { errorDialogPopupShown = false }
             }
         }

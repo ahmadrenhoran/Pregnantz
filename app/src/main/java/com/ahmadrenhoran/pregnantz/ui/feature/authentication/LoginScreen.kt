@@ -39,7 +39,7 @@ fun LoginScreen(
     val uiState = viewModel.uiState.collectAsState().value
     val focusManager = LocalFocusManager.current
     val keyboard = LocalSoftwareKeyboardController.current
-    if (viewModel.emailResponseSignIn == Response.Loading) {
+    if (viewModel.emailResponseSignIn != Response.Loading) {
         Column(
             modifier = modifier
                 .padding(start = 24.dp, end = 24.dp, bottom = 12.dp)
@@ -72,7 +72,6 @@ fun LoginScreen(
                     }
                 )
             )
-            Spacer(modifier = Modifier.height(16.dp))
             PasswordField(
                 password = uiState.password,
                 onValueChange = { viewModel.setPassword(it) },

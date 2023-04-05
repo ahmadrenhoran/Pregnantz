@@ -14,7 +14,7 @@ fun Dialog(text: String, onDismiss: () -> Unit) {
         onDismissRequest = onDismiss,
         text = {
             Text(
-                text = "$text \uD83D\uDE48",
+                text = "$text",
                 style = MaterialTheme.typography.bodyMedium
             )
         },

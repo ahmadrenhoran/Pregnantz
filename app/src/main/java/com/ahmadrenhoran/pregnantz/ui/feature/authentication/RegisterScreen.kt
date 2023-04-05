@@ -74,7 +74,6 @@ fun RegisterScreen(
                     }
                 )
             )
-            Spacer(modifier = Modifier.height(16.dp))
             PasswordField(
                 password = uiState.password,
                 onValueChange = {

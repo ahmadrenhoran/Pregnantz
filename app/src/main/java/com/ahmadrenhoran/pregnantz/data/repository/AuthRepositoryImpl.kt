@@ -1,6 +1,7 @@
 package com.ahmadrenhoran.pregnantz.data.repository
 
 
+import android.util.Log
 import com.ahmadrenhoran.pregnantz.core.Utils.toUser
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.domain.repository.AuthRepository
@@ -22,6 +23,7 @@ class AuthRepositoryImpl @Inject constructor(private val auth: FirebaseAuth, pri
             auth.signInWithEmailAndPassword(email, password).await()
             Response.Success(true)
         } catch (e: FirebaseAuthException) {
+            Log.d(TAG, "firebaseSignUpWithEmail: $e")
             Response.Failure(e)
         }
     }

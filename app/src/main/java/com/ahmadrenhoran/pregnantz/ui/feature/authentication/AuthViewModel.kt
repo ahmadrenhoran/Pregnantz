@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -38,9 +39,13 @@ class AuthViewModel @Inject constructor(private val authUseCases: AuthUseCases) 
         private set
 
     fun login() = viewModelScope.launch {
-        emailResponseSignIn = Response.Loading
-        emailResponseSignIn =
-            authUseCases.signInWithEmail(uiState.value.email, uiState.value.password)
+        if (_uiState.value.email.isNotEmpty() && _uiState.value.password.isNotEmpty()) {
+            emailResponseSignIn = Response.Loading
+            emailResponseSignIn =
+                authUseCases.signInWithEmail(uiState.value.email, uiState.value.password)
+        } else {
+            emailResponseSignIn = Response.Failure(e = Exception("Please enter your email and password"))
+        }
     }
 
     fun register() = viewModelScope.launch {
