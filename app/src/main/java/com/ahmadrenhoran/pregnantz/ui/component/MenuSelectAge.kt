@@ -2,6 +2,7 @@ package com.ahmadrenhoran.pregnantz.ui.component
 
 import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.*
@@ -12,7 +13,8 @@ import com.ahmadrenhoran.pregnantz.core.Constants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MenuSelectAge(modifier: Modifier = Modifier, age: String, expanded: Boolean, onExpandClick: () -> Unit, onMenuItemClick: (String) -> Unit) {
+fun MenuSelectAge(modifier: Modifier = Modifier, age: String, expanded: Boolean, onExpandClick: () -> Unit, onDismissRequest: () -> Unit, onMenuItemClick: (String) -> Unit) {
+
     OutlinedTextField(
         value = age,
         onValueChange = { }, readOnly = true, enabled = false,
@@ -24,13 +26,11 @@ fun MenuSelectAge(modifier: Modifier = Modifier, age: String, expanded: Boolean,
             disabledBorderColor = MaterialTheme.colorScheme.outline,
             disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
             disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        ),
     )
-
-
     DropdownMenu(
         expanded = expanded,
-        onDismissRequest = onExpandClick,
+        onDismissRequest = onDismissRequest,
         modifier = Modifier.width(200.dp)
     ) {
         Constants.AGE_LIST.forEach { ageUser ->

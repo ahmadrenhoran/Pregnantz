@@ -29,7 +29,7 @@ fun PasswordField(
     keyboardActions: KeyboardActions
 ) {
     OutlinedTextField(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(), singleLine = true,
         shape = MaterialTheme.shapes.small,
         value = password,
         onValueChange = onValueChange,
@@ -52,7 +52,7 @@ fun PasswordField(
         },
         isError = isError,
         trailingIcon = {
-            IconButton(onClick = onClickPasswordVisibility ) {
+            IconButton(onClick = onClickPasswordVisibility) {
                 Icon(
                     imageVector = if (passwordVisibility) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
                     contentDescription = if (passwordVisibility) stringResource(R.string.hide_password) else stringResource(

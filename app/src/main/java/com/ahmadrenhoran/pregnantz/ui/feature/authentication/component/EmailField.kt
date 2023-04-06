@@ -27,7 +27,7 @@ fun EmailField(
     keyboardActions: KeyboardActions
 ) {
     OutlinedTextField(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(), singleLine = true,
         shape = MaterialTheme.shapes.small,
         value = email,
         onValueChange = onValueChange,
