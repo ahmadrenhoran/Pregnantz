@@ -1,31 +1,26 @@
-package com.ahmadrenhoran.pregnantz.ui.feature.authentication.component
+package com.ahmadrenhoran.pregnantz.ui.feature.form.component
 
-import android.util.Log
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
+import android.net.Uri
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ahmadrenhoran.pregnantz.core.Constants
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.ui.component.Dialog
 import com.ahmadrenhoran.pregnantz.ui.component.ProgressBar
-import com.ahmadrenhoran.pregnantz.ui.feature.authentication.AuthViewModel
-import kotlin.math.sign
+import com.ahmadrenhoran.pregnantz.ui.feature.form.FormViewModel
 
 @Composable
-fun SignUpWithEmailResponse(
-    viewModel: AuthViewModel = hiltViewModel(),
-    onSuccessSignUp: (signUp: Boolean) -> Unit
+fun AddDataUserToDatabaseResponse(
+    viewModel: FormViewModel = hiltViewModel(),
+    onSuccessAddData: (isAddSuccess: Boolean) -> Unit
 ) {
-    when (val signUpResponse = viewModel.emailResponseSignUp) {
+    when(val addDataUserToDatabaseResponse = viewModel.addDataUserToDatabaseResponse) {
         is Response.Loading -> ProgressBar()
-        is Response.Success -> signUpResponse.data.let { signUp ->
-            LaunchedEffect(signUp) {
-                onSuccessSignUp(signUp)
+        is Response.Success -> addDataUserToDatabaseResponse.data?.let { isAddSuccess ->
+            LaunchedEffect(isAddSuccess) {
+                onSuccessAddData(isAddSuccess)
             }
         }
-        is Response.Failure -> signUpResponse.apply {
+        is Response.Failure -> addDataUserToDatabaseResponse.apply {
             var errorDialogPopupShown by remember { mutableStateOf(false) }
             var errorDesc by remember { mutableStateOf("") }
             LaunchedEffect(e) {

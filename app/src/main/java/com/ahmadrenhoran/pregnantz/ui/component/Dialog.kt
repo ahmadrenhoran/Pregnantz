@@ -1,4 +1,4 @@
-package com.ahmadrenhoran.pregnantz.ui.feature.authentication.component
+package com.ahmadrenhoran.pregnantz.ui.component
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme

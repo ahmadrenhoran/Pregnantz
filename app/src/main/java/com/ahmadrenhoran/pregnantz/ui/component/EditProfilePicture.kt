@@ -27,14 +27,19 @@ import coil.compose.AsyncImage
 import com.ahmadrenhoran.pregnantz.R
 
 @Composable
-fun EditProfilePicture() {
+fun EditProfilePicture(onUploadImage: (imageUri: Uri) -> Unit) {
     var selectedImageUri by remember {
         mutableStateOf<Uri?>(null)
     }
 
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> selectedImageUri = uri }
+        onResult = { uri ->
+            selectedImageUri = uri
+            if (uri != null) {
+                onUploadImage(uri)
+            }
+        }
     )
     Box(
         modifier = Modifier

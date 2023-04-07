@@ -51,7 +51,8 @@ class AuthRepositoryImpl @Inject constructor(
         return try {
             val uid = auth.currentUser?.uid
             val downloadUrl = storage.reference
-                .child(Constants.STORAGE_PICTURES).child(Constants.STORAGE_PROFILE_PICTURES).child(uid ?: "none")
+                .child(Constants.STORAGE_PICTURES).child(Constants.STORAGE_PROFILE_PICTURES)
+                .child(uid ?: "none")
                 .putFile(imageUri).await()
                 .storage.downloadUrl.await()
             Response.Success(downloadUrl)
@@ -60,14 +61,26 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun firebaseAddDataUserToDatabase(user: User): AddDataUserToDatabaseResponse {
+    override suspend fun firebaseAddDataUserToDatabase(
+        name: String,
+        age: String,
+        imageUri: Uri
+    ): AddDataUserToDatabaseResponse {
         return try {
             val usersRef = db.getReference(Constants.DB_USERS_REF)
             val profileUpdates = userProfileChangeRequest {
-                displayName = user.name
-                photoUri = Uri.parse(user.photoUrl)
+                displayName = name
+                photoUri = imageUri
             }
             auth.currentUser?.apply {
+                val user =
+                    User(
+                        uid = this.uid,
+                        name = name,
+                        age = age,
+                        photoUrl = imageUri.toString(),
+                        email = this.email ?: ""
+                    )
                 usersRef.child(user.uid).setValue(user).await() // to DB
                 updateProfile(profileUpdates) // to Auth
             }

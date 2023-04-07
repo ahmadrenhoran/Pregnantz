@@ -1,31 +1,27 @@
-package com.ahmadrenhoran.pregnantz.ui.feature.authentication.component
+package com.ahmadrenhoran.pregnantz.ui.feature.form.component
 
-import android.util.Log
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
+import android.net.Uri
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ahmadrenhoran.pregnantz.core.Constants
 import com.ahmadrenhoran.pregnantz.domain.model.Response
+import com.ahmadrenhoran.pregnantz.domain.model.User
 import com.ahmadrenhoran.pregnantz.ui.component.Dialog
 import com.ahmadrenhoran.pregnantz.ui.component.ProgressBar
-import com.ahmadrenhoran.pregnantz.ui.feature.authentication.AuthViewModel
-import kotlin.math.sign
+import com.ahmadrenhoran.pregnantz.ui.feature.form.FormViewModel
 
 @Composable
-fun SignUpWithEmailResponse(
-    viewModel: AuthViewModel = hiltViewModel(),
-    onSuccessSignUp: (signUp: Boolean) -> Unit
+fun AddImageToStorage(
+    viewModel: FormViewModel = hiltViewModel(),
+    onSuccessUploadImage: (downloadUrl: Uri) -> Unit
 ) {
-    when (val signUpResponse = viewModel.emailResponseSignUp) {
+    when(val addImageToStorageResponse = viewModel.addImageToStorageResponse) {
         is Response.Loading -> ProgressBar()
-        is Response.Success -> signUpResponse.data.let { signUp ->
-            LaunchedEffect(signUp) {
-                onSuccessSignUp(signUp)
+        is Response.Success -> addImageToStorageResponse.data?.let { downloadUrl ->
+            LaunchedEffect(downloadUrl) {
+                onSuccessUploadImage(downloadUrl)
             }
         }
-        is Response.Failure -> signUpResponse.apply {
+        is Response.Failure -> addImageToStorageResponse.apply {
             var errorDialogPopupShown by remember { mutableStateOf(false) }
             var errorDesc by remember { mutableStateOf("") }
             LaunchedEffect(e) {

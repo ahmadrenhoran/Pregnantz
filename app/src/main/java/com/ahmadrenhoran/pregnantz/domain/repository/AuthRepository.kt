@@ -18,7 +18,7 @@ interface AuthRepository {
 
     suspend fun firebaseAddImageToStorage(imageUri: Uri): AddImageToStorageResponse
 
-    suspend fun firebaseAddDataUserToDatabase(user: User): AddDataUserToDatabaseResponse
+    suspend fun firebaseAddDataUserToDatabase(name: String, age: String, imageUri: Uri): AddDataUserToDatabaseResponse
 
 
 
