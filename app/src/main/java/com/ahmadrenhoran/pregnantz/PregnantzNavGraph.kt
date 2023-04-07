@@ -1,6 +1,7 @@
 package com.ahmadrenhoran.pregnantz
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.preference.PreferenceManager
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -10,6 +11,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ahmadrenhoran.pregnantz.core.Constants
+import com.ahmadrenhoran.pregnantz.ui.article.ArticleScreen
+import com.ahmadrenhoran.pregnantz.ui.component.PregnantzBottomNavigation
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzAuthScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzHomeScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.authentication.LoginScreen
@@ -17,6 +20,7 @@ import com.ahmadrenhoran.pregnantz.ui.feature.authentication.RegisterScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.form.FormScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.home.HomeScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.splashscreen.SplashScreen
+import com.ahmadrenhoran.pregnantz.ui.feature.tools.ToolsScreen
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -24,12 +28,19 @@ import com.google.firebase.ktx.Firebase
 @Composable
 fun PregnantzNavGraph(modifier: Modifier = Modifier) {
     val appState = rememberPregnantzAppState()
-    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocalContext.current)
-    var isFormFilled by remember {
-        mutableStateOf(sharedPreferences.getBoolean(Constants.IS_FORM_FILLED, false))
-    }
 
-    Scaffold { innerPadding ->
+    Scaffold(
+        bottomBar = {
+            if (appState.shouldShowBottomBar) {
+                Log.d(Constants.LOGIN_SCREEN_TAG, "PregnantzNavGraph: ")
+                PregnantzBottomNavigation(
+                    navController = appState.navController,
+                    items = Constants.BOTTOM_BAR_ITEM_LIST
+                )
+            }
+            Log.d(Constants.LOGIN_SCREEN_TAG, "PregnantzNavGraph: tesss")
+        }
+    ) { innerPadding ->
         NavHost(
             modifier = modifier.padding(innerPadding),
             navController = appState.navController,
@@ -43,7 +54,7 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier) {
                             PregnantzAuthScreen.Splash.name
                         )
                     } else { // User already log in
-                        if (!isFormFilled) { // if user has not filled the form
+                        if (Firebase.auth.currentUser!!.displayName == null) { // if user has not filled the form
                             appState.navController.navigateToAndPopUpTo(
                                 PregnantzAuthScreen.Form.name,
                                 PregnantzAuthScreen.Splash.name
@@ -61,7 +72,17 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier) {
                 LoginScreen(
                     onClickableTextRegister = { appState.navController.navigate(route = PregnantzAuthScreen.Register.name) },
                     onSuccessSignIn = {
-
+                        if (Firebase.auth.currentUser!!.displayName == null) { // if user has not filled the form
+                            appState.navController.navigateToAndPopUpTo(
+                                PregnantzAuthScreen.Form.name,
+                                PregnantzAuthScreen.Login.name
+                            )
+                        } else {
+                            appState.navController.navigateToAndPopUpTo(
+                                PregnantzHomeScreen.Home.name,
+                                PregnantzAuthScreen.Login.name
+                            )
+                        }
                     }
                 )
             }
@@ -74,13 +95,31 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier) {
             }
             composable(route = PregnantzAuthScreen.Form.name) {
                 FormScreen {
-                    sharedPreferences.edit().putBoolean(Constants.IS_FORM_FILLED, true)
-                    appState.navController.navigate(route = PregnantzHomeScreen.Home.name)
+                    appState.navController.navigate(PregnantzHomeScreen.Home.name) {
+                        popUpTo(PregnantzAuthScreen.Form.name) {
+                            inclusive = true
+                        }
+                        popUpTo(PregnantzAuthScreen.Register.name) {
+                            inclusive = true
+                        }
+                        popUpTo(PregnantzAuthScreen.Login.name) {
+                            inclusive = true
+                        }
+
+                    }
                 }
             }
 
             composable(route = PregnantzHomeScreen.Home.name) {
                 HomeScreen()
+            }
+
+            composable(route = PregnantzHomeScreen.Tools.name) {
+                ToolsScreen()
+            }
+
+            composable(route = PregnantzHomeScreen.Article.name) {
+                ArticleScreen()
             }
         }
 

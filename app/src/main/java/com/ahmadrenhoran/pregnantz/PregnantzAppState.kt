@@ -21,7 +21,7 @@ fun rememberPregnantzAppState(
 @Stable
 class PregnantzAppState(val navController: NavHostController) {
     val bottomBarTabs = PregnantzHomeScreen.values()
-    private val bottomBarRoutes = bottomBarTabs.map { it.route }
+    private val bottomBarRoutes = bottomBarTabs.map { it.name }
 
     val shouldShowBottomBar: Boolean
         @Composable get() = navController

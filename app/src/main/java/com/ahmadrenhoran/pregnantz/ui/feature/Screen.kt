@@ -24,8 +24,8 @@ enum class PregnantzHomeScreen(
     val route: String,
     val icon: ImageVector
 ) {
-    Home(title = R.string.home, "HomeScreen", Icons.Outlined.Home),
-    Tools(title = R.string.tools, "ToolScreen", Icons.Outlined.Backpack),
-    Article(title = R.string.article, "ArticleScreen", Icons.Outlined.Newspaper),
+    Home(title = R.string.home, "Home", Icons.Outlined.Home),
+    Tools(title = R.string.tools, "Tool", Icons.Outlined.Backpack),
+    Article(title = R.string.article, "Article", Icons.Outlined.Newspaper),
 
 }
