@@ -19,4 +19,12 @@
     <string name="show_password">Show Password</string>
     <string name="register">Register</string>
     <string name="close">Close</string>
+    <plurals name="pregnantProgressWeeks">
+        <item quantity="one">%d week </item>
+        <item quantity="other">%d week </item>
+    </plurals>
+    <plurals name="pregnantProgressDays">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
 </resources>

@@ -1,7 +1,9 @@
 package com.ahmadrenhoran.pregnantz
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.preference.PreferenceManager
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -24,6 +26,7 @@ import com.ahmadrenhoran.pregnantz.ui.feature.tools.ToolsScreen
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+
 @SuppressLint("CommitPrefEdits")
 @Composable
 fun PregnantzNavGraph(modifier: Modifier = Modifier) {
@@ -38,7 +41,6 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier) {
                     items = Constants.BOTTOM_BAR_ITEM_LIST
                 )
             }
-            Log.d(Constants.LOGIN_SCREEN_TAG, "PregnantzNavGraph: tesss")
         }
     ) { innerPadding ->
         NavHost(
@@ -53,12 +55,13 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier) {
                             PregnantzAuthScreen.Login.name,
                             PregnantzAuthScreen.Splash.name
                         )
-                    } else { // User already log in
-                        if (Firebase.auth.currentUser!!.displayName == null) { // if user has not filled the form
+                    } else if (Firebase.auth.currentUser != null) { // User already log in
+                        if (Firebase.auth.currentUser!!.displayName?.isEmpty() == true) { // if user has not filled the form
                             appState.navController.navigateToAndPopUpTo(
                                 PregnantzAuthScreen.Form.name,
                                 PregnantzAuthScreen.Splash.name
                             )
+
                         } else {
                             appState.navController.navigateToAndPopUpTo(
                                 PregnantzHomeScreen.Home.name,
@@ -72,7 +75,7 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier) {
                 LoginScreen(
                     onClickableTextRegister = { appState.navController.navigate(route = PregnantzAuthScreen.Register.name) },
                     onSuccessSignIn = {
-                        if (Firebase.auth.currentUser!!.displayName == null) { // if user has not filled the form
+                        if (Firebase.auth.currentUser!!.displayName?.isEmpty() == true) { // if user has not filled the form
                             appState.navController.navigateToAndPopUpTo(
                                 PregnantzAuthScreen.Form.name,
                                 PregnantzAuthScreen.Login.name

@@ -13,30 +13,40 @@ import com.ahmadrenhoran.pregnantz.core.Constants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MenuSelectAge(modifier: Modifier = Modifier, age: String, expanded: Boolean, onExpandClick: () -> Unit, onDismissRequest: () -> Unit, onMenuItemClick: (String) -> Unit) {
+fun MenuSelectAge(
+    modifier: Modifier = Modifier,
+    age: String,
+    expanded: Boolean,
+    onExpandClick: () -> Unit,
+    onDismissRequest: () -> Unit,
+    onMenuItemClick: (String) -> Unit
+) {
 
-    OutlinedTextField(
-        value = age,
-        onValueChange = { }, readOnly = true, enabled = false,
-        label = { Text(text = "Age") },
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable(onClick = onExpandClick), colors = TextFieldDefaults.outlinedTextFieldColors(
-            disabledTextColor = MaterialTheme.colorScheme.onSurface,
-            disabledBorderColor = MaterialTheme.colorScheme.outline,
-            disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        ),
-    )
-    DropdownMenu(
+    ExposedDropdownMenuBox(modifier = modifier,
         expanded = expanded,
-        onDismissRequest = onDismissRequest,
-        modifier = Modifier.width(200.dp)
-    ) {
-        Constants.AGE_LIST.forEach { ageUser ->
-            DropdownMenuItem(
-                onClick = { onMenuItemClick(ageUser) }, text = { Text(text = ageUser) }
-            )
+        onExpandedChange = {
+            onExpandClick()
+        }) {
+        OutlinedTextField(
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth(),
+            value = age,
+            onValueChange = { }, readOnly = true,
+            label = { Text(text = "Age") },
+            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = onDismissRequest,
+            modifier = Modifier.width(200.dp)
+        ) {
+            Constants.AGE_LIST.forEach { ageUser ->
+                DropdownMenuItem(
+                    onClick = { onMenuItemClick(ageUser) },
+                    text = { Text(text = ageUser) }
+                )
+            }
         }
     }
 }

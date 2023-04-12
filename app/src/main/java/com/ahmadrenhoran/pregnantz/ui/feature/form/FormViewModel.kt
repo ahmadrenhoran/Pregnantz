@@ -1,26 +1,25 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.form
 
 import android.net.Uri
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ahmadrenhoran.pregnantz.core.Constants
+import com.ahmadrenhoran.pregnantz.core.DueDateMenu
+import com.ahmadrenhoran.pregnantz.core.Utils
 import com.ahmadrenhoran.pregnantz.domain.model.Response
-import com.ahmadrenhoran.pregnantz.domain.model.User
 import com.ahmadrenhoran.pregnantz.domain.repository.AddDataUserToDatabaseResponse
 import com.ahmadrenhoran.pregnantz.domain.repository.AddImageToStorageResponse
-import com.ahmadrenhoran.pregnantz.domain.usecase.auth.AddDataUserToDatabase
 import com.ahmadrenhoran.pregnantz.domain.usecase.auth.AuthUseCases
-import com.ahmadrenhoran.pregnantz.ui.feature.authentication.AuthUiState
-import com.google.firebase.auth.ktx.auth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,7 +27,13 @@ class FormViewModel @Inject constructor(private val authUseCases: AuthUseCases) 
     private val _uiState = MutableStateFlow(FormUiState())
     val uiState: StateFlow<FormUiState> = _uiState.asStateFlow()
 
-    var addImageToStorageResponse by mutableStateOf<AddImageToStorageResponse>(Response.Success(Uri.parse("")))
+    var addImageToStorageResponse by mutableStateOf<AddImageToStorageResponse>(
+        Response.Success(
+            Uri.parse(
+                ""
+            )
+        )
+    )
         private set
 
     var addDataUserToDatabaseResponse by mutableStateOf<AddDataUserToDatabaseResponse>(
@@ -45,8 +50,12 @@ class FormViewModel @Inject constructor(private val authUseCases: AuthUseCases) 
 
     fun addDataUserToDatabase() = viewModelScope.launch {
         _uiState.value.apply {
-            addDataUserToDatabaseResponse = Response.Loading
-            addDataUserToDatabaseResponse = authUseCases.addDataUserToDatabase.invoke(name, age, imageUri)
+            if (name != null && age != null && date != null) {
+                addDataUserToDatabaseResponse = Response.Loading
+                addDataUserToDatabaseResponse =
+                    authUseCases.addDataUserToDatabase.invoke(name, age, getDueDate(), imageUri)
+
+            }
         }
 
     }
@@ -63,6 +72,12 @@ class FormViewModel @Inject constructor(private val authUseCases: AuthUseCases) 
         }
     }
 
+    fun setDate(date: String) {
+        _uiState.update {
+            it.copy(date = date)
+        }
+    }
+
     fun setImageUri(imageUri: Uri) {
         _uiState.update {
             it.copy(imageUri = imageUri)
@@ -75,5 +90,29 @@ class FormViewModel @Inject constructor(private val authUseCases: AuthUseCases) 
         }
     }
 
+    fun setDueDateMenu(dueDateMenu: DueDateMenu) {
+        _uiState.update {
+            it.copy(dueDateMenu = dueDateMenu)
+        }
+    }
 
+    fun setDueDateMenuExpand(isDueDateMenuExpand: Boolean) {
+        _uiState.update {
+            it.copy(isDueDateMenuExpand = isDueDateMenuExpand)
+        }
+    }
+
+    fun getDueDate(): String {
+        if (_uiState.value.dueDateMenu.name == Constants.FIRST_DAY_OF_LAST_PERIOD) {
+            return Utils.getFirstDayOfLastPeriodDueDate(LocalDate.parse(_uiState.value.date))
+        } else { // Estimated Due Date
+            return _uiState.value.date
+        }
+    }
+
+    // get remaining weeks
+    fun getDueWeek() = Utils.getDueWeeks(LocalDate.parse(getDueDate()))
+
+    // get remaining days
+    fun getDueDay() = Utils.getDueDays(LocalDate.parse(getDueDate()))
 }

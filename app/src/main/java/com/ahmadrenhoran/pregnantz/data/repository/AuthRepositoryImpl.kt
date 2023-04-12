@@ -64,6 +64,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun firebaseAddDataUserToDatabase(
         name: String,
         age: String,
+        dueDate: String,
         imageUri: Uri
     ): AddDataUserToDatabaseResponse {
         return try {
@@ -77,7 +78,7 @@ class AuthRepositoryImpl @Inject constructor(
                     User(
                         uid = this.uid,
                         name = name,
-                        age = age,
+                        age = age, dueDate = dueDate,
                         photoUrl = imageUri.toString(),
                         email = this.email ?: ""
                     )
