@@ -6,10 +6,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -22,7 +20,7 @@ import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.ui.component.EditProfilePicture
 import com.ahmadrenhoran.pregnantz.ui.component.MenuSelectAge
 import com.ahmadrenhoran.pregnantz.ui.feature.form.component.AddDataUserToDatabaseResponse
-import com.ahmadrenhoran.pregnantz.ui.feature.form.component.AddImageToStorage
+import com.ahmadrenhoran.pregnantz.ui.feature.form.component.AddImageToStorageResponse
 import com.ahmadrenhoran.pregnantz.ui.feature.form.component.DueDate
 
 
@@ -183,7 +181,7 @@ fun FormScreen(
         }
     }
 
-    AddImageToStorage(onSuccessUploadImage = { uri ->
+    AddImageToStorageResponse(onSuccessUploadImage = { uri ->
         viewModel.setImageUri(uri)
     })
 

@@ -2,8 +2,10 @@ package com.ahmadrenhoran.pregnantz.core
 
 import com.ahmadrenhoran.pregnantz.domain.model.User
 import com.google.firebase.auth.FirebaseUser
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
+import java.util.*
 import java.util.regex.Pattern
 import kotlin.math.absoluteValue
 
@@ -45,6 +47,22 @@ object Utils {
 
     fun getDueDays(localDate: LocalDate) =
         ChronoUnit.DAYS.between(localDate, LocalDate.now()).absoluteValue % 7
+
+    fun parsingDateToSimpleFormat(date: String): String {
+        val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+        val outputDateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+
+        val parsedDate = inputDateFormat.parse(date)
+        val outputDate = outputDateFormat.format(parsedDate)
+        return outputDate
+    }
+
+    fun getIconWebsite(url: String): String {
+        val domain = url.removePrefix("https://")
+
+        return "https://s2.googleusercontent.com/s2/favicons?domain=$domain/%2020"
+
+    }
 
 
 }

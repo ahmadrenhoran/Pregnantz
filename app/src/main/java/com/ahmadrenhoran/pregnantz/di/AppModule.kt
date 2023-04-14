@@ -39,12 +39,13 @@ class AppModule {
     @Provides
     fun provideFirebaseStorage() = Firebase.storage
 
+
+
     @Provides
     fun provideArticleBaseUrl(): String = "https://newsapi.org/v2/"
 
 
     @Provides
-    @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         val loggingInterceptor = when (BuildConfig.DEBUG) {
             true -> HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -57,7 +58,6 @@ class AppModule {
     }
 
     @Provides
-    @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -66,7 +66,6 @@ class AppModule {
             .build()
 
     @Provides
-    @Singleton
     fun provideArticleApi(retrofit: Retrofit): ArticleApi =
         retrofit.create(ArticleApi::class.java)
 
