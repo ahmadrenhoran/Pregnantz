@@ -1,4 +1,4 @@
-package com.ahmadrenhoran.pregnantz.ui.article
+package com.ahmadrenhoran.pregnantz.ui.feature.article
 
 import com.ahmadrenhoran.pregnantz.domain.model.Article
 

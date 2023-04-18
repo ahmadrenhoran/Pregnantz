@@ -29,7 +29,7 @@ class AuthRepositoryImpl @Inject constructor(
         return try {
             auth.signInWithEmailAndPassword(email, password).await()
             Response.Success(true)
-        } catch (e: FirebaseAuthException) {
+        } catch (e: FirebaseException) {
             Response.Failure(e)
         }
     }
@@ -42,7 +42,7 @@ class AuthRepositoryImpl @Inject constructor(
             auth.createUserWithEmailAndPassword(email, password).await()
             addUserToDatabase()
             Response.Success(true)
-        } catch (e: FirebaseAuthException) {
+        } catch (e: FirebaseException) {
             Response.Failure(e)
         }
     }

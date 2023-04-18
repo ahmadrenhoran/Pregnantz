@@ -1,4 +1,4 @@
-package com.ahmadrenhoran.pregnantz.ui.article.component
+package com.ahmadrenhoran.pregnantz.ui.feature.article.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

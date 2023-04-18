@@ -1,4 +1,4 @@
-package com.ahmadrenhoran.pregnantz.ui.article.component
+package com.ahmadrenhoran.pregnantz.ui.feature.article.component
 
 import android.net.Uri
 import androidx.compose.foundation.layout.*
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ahmadrenhoran.pregnantz.domain.model.Response
-import com.ahmadrenhoran.pregnantz.ui.article.ArticleViewModel
+import com.ahmadrenhoran.pregnantz.ui.feature.article.ArticleViewModel
 import com.ahmadrenhoran.pregnantz.ui.component.Dialog
 import com.ahmadrenhoran.pregnantz.ui.component.ProgressBar
 import com.ahmadrenhoran.pregnantz.ui.feature.form.FormViewModel

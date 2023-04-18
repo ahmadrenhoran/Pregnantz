@@ -1,6 +1,5 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.form.component
 
-import android.net.Uri
 import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ahmadrenhoran.pregnantz.domain.model.Response
@@ -29,7 +28,7 @@ fun AddDataUserToDatabaseResponse(
             }
             if (errorDialogPopupShown) {
                 Dialog(
-                    text = errorDesc
+                    text = errorDesc, onConfirm = { errorDialogPopupShown = false }
                 ) { errorDialogPopupShown = false }
             }
         }

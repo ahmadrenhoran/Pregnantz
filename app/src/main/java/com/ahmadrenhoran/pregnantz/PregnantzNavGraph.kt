@@ -1,26 +1,25 @@
 package com.ahmadrenhoran.pregnantz
 
 import android.annotation.SuppressLint
-import android.os.Build
+import android.content.Context
 import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.preference.PreferenceManager
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ahmadrenhoran.pregnantz.core.Constants
-import com.ahmadrenhoran.pregnantz.ui.article.ArticleScreen
+import com.ahmadrenhoran.pregnantz.ui.feature.article.ArticleScreen
 import com.ahmadrenhoran.pregnantz.ui.component.PregnantzBottomNavigation
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzAuthScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzHomeScreen
+import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzToolsScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.authentication.LoginScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.authentication.RegisterScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.form.FormScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.home.HomeScreen
+import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.splashscreen.SplashScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.tools.ToolsScreen
 import com.google.firebase.auth.ktx.auth
@@ -29,7 +28,7 @@ import com.google.firebase.ktx.Firebase
 
 @SuppressLint("CommitPrefEdits")
 @Composable
-fun PregnantzNavGraph(modifier: Modifier = Modifier) {
+fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
     val appState = rememberPregnantzAppState()
 
     Scaffold(
@@ -48,6 +47,7 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier) {
             navController = appState.navController,
             startDestination = PregnantzAuthScreen.Splash.name
         ) {
+            // Auth
             composable(route = PregnantzAuthScreen.Splash.name) {
                 SplashScreen {
                     if (Firebase.auth.currentUser == null) {
@@ -113,16 +113,24 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier) {
                 }
             }
 
+            // Home
             composable(route = PregnantzHomeScreen.Home.name) {
                 HomeScreen()
             }
 
             composable(route = PregnantzHomeScreen.Tools.name) {
-                ToolsScreen()
+                ToolsScreen(
+                    onHospitalClick = { appState.navController.navigate(PregnantzToolsScreen.HospitalLocationScreen.name) }
+                )
+
             }
 
             composable(route = PregnantzHomeScreen.Article.name) {
                 ArticleScreen()
+            }
+            // Tools
+            composable(route = PregnantzToolsScreen.HospitalLocationScreen.name) {
+                HospitalLocationScreen(context = context)
             }
         }
 

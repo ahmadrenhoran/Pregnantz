@@ -1,4 +1,4 @@
-package com.ahmadrenhoran.pregnantz.ui.article
+package com.ahmadrenhoran.pregnantz.ui.feature.article
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ahmadrenhoran.pregnantz.ui.article.component.GetArticlesResponse
+import com.ahmadrenhoran.pregnantz.ui.feature.article.component.GetArticlesResponse
 
 @Composable
 fun ArticleScreen(modifier: Modifier = Modifier, viewModel: ArticleViewModel = hiltViewModel()) {

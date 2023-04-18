@@ -9,7 +9,12 @@ import androidx.compose.ui.res.stringResource
 import com.ahmadrenhoran.pregnantz.R
 
 @Composable
-fun Dialog(text: String, onDismiss: () -> Unit) {
+fun Dialog(
+    text: String,
+    confirmButtonText: String = stringResource(R.string.close),
+    onConfirm: () -> Unit = {},
+    onDismiss: () -> Unit
+) {
     AlertDialog(
         onDismissRequest = onDismiss,
         text = {
@@ -19,9 +24,10 @@ fun Dialog(text: String, onDismiss: () -> Unit) {
             )
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.close))
+            TextButton(onClick = onConfirm) {
+                Text(text = confirmButtonText)
             }
-        }
+        },
+
     )
 }

@@ -1,5 +1,6 @@
 package com.ahmadrenhoran.pregnantz.core
 
+import android.Manifest
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzHomeScreen
 import java.time.LocalDate
 
@@ -78,7 +79,14 @@ object Constants {
     // TAG
     const val REGISTER_SCREEN_TAG = "registerScreenTag"
     const val LOGIN_SCREEN_TAG = "loginScreenTag"
+    const val TOOLS_SCREEN_TAG = "toolsScreenTag"
     const val AUTH_REPOSITORY_IMPL = "AuthRepositoryImplTag"
+
+    // Location Permission
+    val LOCATION_PERMISSIONS = listOf(
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+
 }
 
 data class DueDateMenu(val name: String, val boundary: ClosedRange<LocalDate>)

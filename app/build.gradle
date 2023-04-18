@@ -4,6 +4,7 @@ plugins {
     id "kotlin-kapt"
     id 'com.google.gms.google-services'
     id "dagger.hilt.android.plugin"
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -107,7 +108,19 @@ dependencies {
     // OkHttp
     implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
 
+    // Google maps
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    // Google maps for compose
+    implementation 'com.google.maps.android:maps-compose:2.11.0'
 
+    // Permissions Handling
+    implementation "com.google.accompanist:accompanist-permissions:0.31.0-alpha"
+
+    // KTX for the Maps SDK for Android
+    implementation 'com.google.maps.android:maps-ktx:3.3.0'
+    // KTX for the Maps SDK for Android Utility Library
+    implementation 'com.google.maps.android:maps-utils-ktx:3.2.1'
 
 
 

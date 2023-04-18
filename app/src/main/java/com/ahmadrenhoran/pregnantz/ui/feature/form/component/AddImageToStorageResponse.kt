@@ -29,7 +29,7 @@ fun AddImageToStorageResponse(
             }
             if (errorDialogPopupShown) {
                 Dialog(
-                    text = errorDesc
+                    text = errorDesc, onConfirm = { errorDialogPopupShown = false }
                 ) { errorDialogPopupShown = false }
             }
         }
