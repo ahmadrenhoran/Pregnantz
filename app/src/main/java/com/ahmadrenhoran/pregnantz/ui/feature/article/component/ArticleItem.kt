@@ -2,15 +2,11 @@ package com.ahmadrenhoran.pregnantz.ui.feature.article.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardElevation
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -20,7 +16,6 @@ import coil.compose.AsyncImage
 import com.ahmadrenhoran.pregnantz.R
 import com.ahmadrenhoran.pregnantz.core.Utils
 import com.ahmadrenhoran.pregnantz.domain.model.Article
-import java.time.LocalDate
 
 @Composable
 fun ArticleItem(modifier: Modifier = Modifier, article: Article) {

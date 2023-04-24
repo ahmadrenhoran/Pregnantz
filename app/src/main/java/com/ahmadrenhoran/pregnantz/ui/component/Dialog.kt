@@ -28,6 +28,5 @@ fun Dialog(
                 Text(text = confirmButtonText)
             }
         },
-
     )
 }

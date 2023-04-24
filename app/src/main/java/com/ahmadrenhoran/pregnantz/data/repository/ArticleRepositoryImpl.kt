@@ -1,6 +1,5 @@
 package com.ahmadrenhoran.pregnantz.data.repository
 
-import com.ahmadrenhoran.pregnantz.data.model.ArticleResponse
 import com.ahmadrenhoran.pregnantz.data.remote.ArticleApi
 import com.ahmadrenhoran.pregnantz.domain.model.Article
 import com.ahmadrenhoran.pregnantz.domain.model.Response

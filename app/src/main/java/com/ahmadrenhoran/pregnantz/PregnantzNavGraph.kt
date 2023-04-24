@@ -7,21 +7,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ahmadrenhoran.pregnantz.core.Constants
-import com.ahmadrenhoran.pregnantz.ui.feature.article.ArticleScreen
+import com.ahmadrenhoran.pregnantz.core.Constants.ALL_TAG
 import com.ahmadrenhoran.pregnantz.ui.component.PregnantzBottomNavigation
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzAuthScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzHomeScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzToolsScreen
+import com.ahmadrenhoran.pregnantz.ui.feature.article.ArticleScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.authentication.LoginScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.authentication.RegisterScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.form.FormScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.home.HomeScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationScreen
+import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationViewModel
 import com.ahmadrenhoran.pregnantz.ui.feature.splashscreen.SplashScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.tools.ToolsScreen
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -119,8 +123,19 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
             }
 
             composable(route = PregnantzHomeScreen.Tools.name) {
+
+                val hospitalViewModel: HospitalLocationViewModel = hiltViewModel()
+
+                val fusedLocationProviderClient =
+                    LocationServices.getFusedLocationProviderClient(context)
                 ToolsScreen(
-                    onHospitalClick = { appState.navController.navigate(PregnantzToolsScreen.HospitalLocationScreen.name) }
+                    onHospitalClick = {
+                        val result = hospitalViewModel.getDeviceLocation(fusedLocationProviderClient)
+                        Log.d(ALL_TAG, "PregnantzNavGraph: " + result)
+                        if (result) {
+                            appState.navController.navigate(PregnantzToolsScreen.HospitalLocationScreen.name)
+                        }
+                    }
                 )
 
             }

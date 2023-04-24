@@ -1,69 +1,120 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.hospital
 
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
-import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Box
+import android.location.Location
+import android.util.Log
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationSearching
 import androidx.compose.material.icons.outlined.LocationSearching
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.constraintlayout.motion.widget.Debug.getLocation
-import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberPermissionState
-import com.google.android.gms.location.FusedLocationProviderClient
+import com.ahmadrenhoran.pregnantz.R
+import com.ahmadrenhoran.pregnantz.domain.model.Response
+import com.ahmadrenhoran.pregnantz.ui.feature.hospital.component.HospitalDetailPlace
+import com.ahmadrenhoran.pregnantz.ui.feature.hospital.component.HospitalDetailPlaceResponse
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.GoogleMapOptions
-import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.CameraUpdate
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.MapProperties
-import com.google.maps.android.compose.MapUiSettings
+import com.google.android.libraries.places.api.Places
+import com.google.maps.android.compose.*
 
-@OptIn(ExperimentalPermissionsApi::class)
+
 @Composable
 fun HospitalLocationScreen(
     modifier: Modifier = Modifier,
     viewModel: HospitalLocationViewModel = hiltViewModel(), context: Context,
 ) {
+    val fusedLocationProviderClient =
+        LocationServices.getFusedLocationProviderClient(context)
+//    viewModel.getDeviceLocation(fusedLocationProviderClient)
+    val uiState = viewModel.uiState.collectAsState()
+    val placesClient = Places.createClient(LocalContext.current)
 
-    val permissionState = rememberPermissionState(permission = Manifest.permission.ACCESS_FINE_LOCATION)
+    val cameraPositionState = rememberCameraPositionState {
+        uiState.value.lastKnownLocation?.apply {
+            position = CameraPosition.fromLatLngZoom(
+                LatLng(
+                    latitude,
+                    longitude
+                ), 16f
+            )
 
-    LaunchedEffect(Unit) {
+        }
+    }
+
+    LaunchedEffect(uiState.value.lastKnownLocation) {
+        uiState.value.lastKnownLocation?.apply {
+            cameraPositionState.animate(
+                update = CameraUpdateFactory.newLatLngZoom(
+                    LatLng(latitude, longitude),
+                    15f
+                )
+            )
+        }
+
+    }
+    val mapProperties by remember {
+        mutableStateOf(
+            MapProperties(
+                mapStyleOptions = MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style),
+                isMyLocationEnabled = true,
+                isTrafficEnabled = true
+            )
+        )
     }
 
 
-    val uiState = viewModel.uiState.collectAsState()
-    Scaffold(modifier = modifier, floatingActionButton = {
-        FloatingActionButton(
-            onClick = { /* Handle FAB click */ },
-            content = { Icon(Icons.Outlined.LocationSearching, "") }
-        )
-    }) { innerPadding ->
+    Scaffold(
+        modifier = modifier,
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                viewModel.getDeviceLocation(fusedLocationProviderClient)
+            }
+            ) {
+                Icon(imageVector = Icons.Outlined.LocationSearching, contentDescription = "")
+            }
+        },
+    ) { innerPadding ->
         GoogleMap(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
             uiSettings = uiState.value.uiSettings,
+            properties = mapProperties,
+            cameraPositionState = cameraPositionState,
+            onPOIClick = {
+                viewModel.getDetailPlace(placesClient, placeId = it.placeId)
+                viewModel.setIsShowDetailPlace(!uiState.value.isShowDetailPlace)
+            }, onMyLocationClick = {
 
-            )
+            }
+        ) {
+
+        }
+
+
     }
 
+    HospitalDetailPlaceResponse(isShow = uiState.value.isShowDetailPlace) {
+        viewModel.setIsShowDetailPlace(!uiState.value.isShowDetailPlace)
+    }
+
+//    if (isSystemInDarkTheme()) {
+//        viewModel.setMapProperties(MapProperties())
+//    }
 }
+
+
 
 

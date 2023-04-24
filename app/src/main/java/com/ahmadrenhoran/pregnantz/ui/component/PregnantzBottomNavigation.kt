@@ -1,7 +1,5 @@
 package com.ahmadrenhoran.pregnantz.ui.component
 
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

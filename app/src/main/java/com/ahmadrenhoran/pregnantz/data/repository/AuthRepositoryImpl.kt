@@ -9,7 +9,6 @@ import com.ahmadrenhoran.pregnantz.domain.model.User
 import com.ahmadrenhoran.pregnantz.domain.repository.*
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage

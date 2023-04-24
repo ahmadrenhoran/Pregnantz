@@ -4,11 +4,15 @@ import com.ahmadrenhoran.pregnantz.BuildConfig
 import com.ahmadrenhoran.pregnantz.data.remote.ArticleApi
 import com.ahmadrenhoran.pregnantz.data.repository.ArticleRepositoryImpl
 import com.ahmadrenhoran.pregnantz.data.repository.AuthRepositoryImpl
+import com.ahmadrenhoran.pregnantz.data.repository.HospitalLocationRepositoryImpl
 import com.ahmadrenhoran.pregnantz.domain.repository.ArticleRepository
 import com.ahmadrenhoran.pregnantz.domain.repository.AuthRepository
+import com.ahmadrenhoran.pregnantz.domain.repository.HospitalLocationRepository
 import com.ahmadrenhoran.pregnantz.domain.usecase.article.ArticleUseCases
 import com.ahmadrenhoran.pregnantz.domain.usecase.article.GetArticles
 import com.ahmadrenhoran.pregnantz.domain.usecase.auth.*
+import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetDetailPlace
+import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.HospitalLocationUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
@@ -24,7 +28,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -39,12 +42,11 @@ class AppModule {
     @Provides
     fun provideFirebaseStorage() = Firebase.storage
 
-
-
     @Provides
     fun provideArticleBaseUrl(): String = "https://newsapi.org/v2/"
 
-
+    @Provides
+    fun provideGoogleMapsApiBaseUrl(): String = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         val loggingInterceptor = when (BuildConfig.DEBUG) {
@@ -98,4 +100,15 @@ class AppModule {
         AddImageToStorage(repository),
         AddDataUserToDatabase(repository),
     )
+
+    @Provides
+    fun provideHospitalLocationRepository(): HospitalLocationRepository =
+        HospitalLocationRepositoryImpl()
+
+    @Provides
+    fun provideHospitalLocationUseCases(repository: HospitalLocationRepository) = HospitalLocationUseCase(
+        GetDetailPlace(repository)
+    )
+
+
 }

@@ -1,18 +1,16 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.tools.component
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ahmadrenhoran.pregnantz.ui.component.Dialog
-import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationUiState
 import com.ahmadrenhoran.pregnantz.ui.feature.tools.ToolsUiState
 import com.ahmadrenhoran.pregnantz.ui.feature.tools.ToolsViewModel
 

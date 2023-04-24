@@ -1,5 +1,6 @@
-package com.ahmadrenhoran.pregnantz.data.model
+package com.ahmadrenhoran.pregnantz.data.model.article
 
+import com.ahmadrenhoran.pregnantz.data.model.article.SourceResponse
 import com.google.gson.annotations.SerializedName
 
 data class ArticleResponse(

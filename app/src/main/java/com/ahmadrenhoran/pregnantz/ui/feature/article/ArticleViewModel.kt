@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.ahmadrenhoran.pregnantz.domain.model.Article
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.domain.usecase.article.ArticleUseCases
-import com.ahmadrenhoran.pregnantz.ui.feature.authentication.AuthUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

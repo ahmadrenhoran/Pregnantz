@@ -3,7 +3,6 @@ package com.ahmadrenhoran.pregnantz.domain.repository
 
 import android.net.Uri
 import com.ahmadrenhoran.pregnantz.domain.model.Response
-import com.ahmadrenhoran.pregnantz.domain.model.User
 
 typealias SignInWithEmailResponse = Response<Boolean>
 typealias SignUpWithEmailResponse = Response<Boolean>
@@ -19,7 +18,5 @@ interface AuthRepository {
     suspend fun firebaseAddImageToStorage(imageUri: Uri): AddImageToStorageResponse
 
     suspend fun firebaseAddDataUserToDatabase(name: String, age: String, dueDate: String, imageUri: Uri): AddDataUserToDatabaseResponse
-
-
 
 }

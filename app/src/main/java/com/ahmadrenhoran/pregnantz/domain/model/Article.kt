@@ -1,7 +1,6 @@
 package com.ahmadrenhoran.pregnantz.domain.model
 
-import com.ahmadrenhoran.pregnantz.data.model.SourceResponse
-import com.google.gson.annotations.SerializedName
+import com.ahmadrenhoran.pregnantz.data.model.article.SourceResponse
 
 data class Article(
     val publishedAt: String? = null,

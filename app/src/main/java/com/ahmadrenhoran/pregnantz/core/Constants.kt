@@ -2,6 +2,7 @@ package com.ahmadrenhoran.pregnantz.core
 
 import android.Manifest
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzHomeScreen
+import com.google.android.libraries.places.api.model.Place
 import java.time.LocalDate
 
 object Constants {
@@ -12,6 +13,10 @@ object Constants {
     // Firebase Storage Ref
     const val STORAGE_PROFILE_PICTURES = "profilePictures"
     const val STORAGE_PICTURES = "pictures"
+
+    // Google Map Places
+    // Specify the fields
+    val PLACE_FIELDS = listOf(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.RATING)
 
     // SHARED PREFERENCES
     const val IS_FORM_FILLED = "isFormFilled"
@@ -81,6 +86,7 @@ object Constants {
     const val LOGIN_SCREEN_TAG = "loginScreenTag"
     const val TOOLS_SCREEN_TAG = "toolsScreenTag"
     const val AUTH_REPOSITORY_IMPL = "AuthRepositoryImplTag"
+    const val ALL_TAG = "ALL_TAG"
 
     // Location Permission
     val LOCATION_PERMISSIONS = listOf(

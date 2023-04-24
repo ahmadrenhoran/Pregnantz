@@ -1,4 +1,4 @@
-package com.ahmadrenhoran.pregnantz.data.model
+package com.ahmadrenhoran.pregnantz.data.model.article
 
 import com.google.gson.annotations.SerializedName
 
