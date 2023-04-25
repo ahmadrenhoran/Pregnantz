@@ -1,13 +1,19 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.hospital.component
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -15,8 +21,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ahmadrenhoran.pregnantz.domain.model.Place
 import com.ahmadrenhoran.pregnantz.domain.model.Response
-import com.ahmadrenhoran.pregnantz.ui.component.ProgressBar
-import com.ahmadrenhoran.pregnantz.ui.feature.authentication.AuthViewModel
 import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationViewModel
 
 
@@ -24,14 +28,26 @@ import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationViewModel
 fun HospitalDetailPlace(
     modifier: Modifier = Modifier,
     isShow: Boolean = false, place: Place,
+    context: Context,
     onDismissRequest: () -> Unit
 ) {
+
     AnimatedVisibility(visible = isShow) {
         Dialog(onDismissRequest = onDismissRequest) {
             Card() {
                 Column(modifier = modifier.padding(24.dp)) {
-                    Text(text = place.name.toString(), fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
+                    Text(
+                        text = place.name.toString(),
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
                     Text(text = place.address.toString())
+                    Button(modifier = Modifier.fillMaxWidth(), onClick = {
+                        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${place.noTelp}"))
+                        context.startActivity(intent)
+                    }) {
+                        Text(text = "Call")
+                    }
                 }
             }
         }
@@ -42,21 +58,21 @@ fun HospitalDetailPlace(
 @Composable
 fun HospitalDetailPlaceResponse(
     viewModel: HospitalLocationViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier,
     isShow: Boolean = false,
+    context: Context,
     onDismissRequest: () -> Unit
 ) {
-    when (val signInResponse = viewModel.getDetailPlaceResponse) {
+    when (val getDetailPlaceResponse = viewModel.getDetailPlaceResponse) {
         is Response.Loading -> {}
-        is Response.Success -> signInResponse.data.let { place ->
+        is Response.Success -> getDetailPlaceResponse.data.let { place ->
             HospitalDetailPlace(
                 isShow = isShow,
                 onDismissRequest = onDismissRequest,
-                place = place
+                place = place, context = context
             )
 
         }
-        is Response.Failure -> signInResponse.apply {
+        is Response.Failure -> getDetailPlaceResponse.apply {
             var errorDialogPopupShown by remember { mutableStateOf(false) }
             var errorDesc by remember { mutableStateOf("") }
 

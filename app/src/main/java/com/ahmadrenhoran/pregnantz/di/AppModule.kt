@@ -2,6 +2,7 @@ package com.ahmadrenhoran.pregnantz.di
 
 import com.ahmadrenhoran.pregnantz.BuildConfig
 import com.ahmadrenhoran.pregnantz.data.remote.ArticleApi
+import com.ahmadrenhoran.pregnantz.data.remote.GoogleMapApi
 import com.ahmadrenhoran.pregnantz.data.repository.ArticleRepositoryImpl
 import com.ahmadrenhoran.pregnantz.data.repository.AuthRepositoryImpl
 import com.ahmadrenhoran.pregnantz.data.repository.HospitalLocationRepositoryImpl
@@ -12,6 +13,7 @@ import com.ahmadrenhoran.pregnantz.domain.usecase.article.ArticleUseCases
 import com.ahmadrenhoran.pregnantz.domain.usecase.article.GetArticles
 import com.ahmadrenhoran.pregnantz.domain.usecase.auth.*
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetDetailPlace
+import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetNearbyHospital
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.HospitalLocationUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -28,6 +30,9 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
+import javax.inject.Qualifier
+import javax.inject.Singleton
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -43,12 +48,19 @@ class AppModule {
     fun provideFirebaseStorage() = Firebase.storage
 
     @Provides
+    @BaseUrlV1
     fun provideArticleBaseUrl(): String = "https://newsapi.org/v2/"
 
     @Provides
-    fun provideGoogleMapsApiBaseUrl(): String = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
+    @BaseUrlV2
+    fun provideGoogleMapsApiBaseUrl(): String = "https://maps.googleapis.com/maps/api/place/nearbysearch/"
+
+
+    // Article
+
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
+    @HttpClientV1
+    fun provideOkHttpClientArticle(): OkHttpClient {
         val loggingInterceptor = when (BuildConfig.DEBUG) {
             true -> HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             false -> HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
@@ -60,16 +72,17 @@ class AppModule {
     }
 
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit =
+    @RetrofitV1
+    fun provideArticleRetrofit(@HttpClientV1 okHttpClient: OkHttpClient, @BaseUrlV1 articleBaseUrl: String): Retrofit =
         Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(articleBaseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
     @Provides
-    fun provideArticleApi(retrofit: Retrofit): ArticleApi =
-        retrofit.create(ArticleApi::class.java)
+    fun provideArticleApi(@RetrofitV1 articleRetrofit: Retrofit): ArticleApi =
+        articleRetrofit.create(ArticleApi::class.java)
 
     @Provides
     fun provideArticleRepository(articleApi: ArticleApi): ArticleRepository =
@@ -80,6 +93,7 @@ class AppModule {
         ArticleUseCases(GetArticles(articleRepository))
 
 
+    // Auth
     @Provides
     fun provideAuthRepository(
         auth: FirebaseAuth,
@@ -101,14 +115,64 @@ class AppModule {
         AddDataUserToDatabase(repository),
     )
 
+    // Hospital
     @Provides
-    fun provideHospitalLocationRepository(): HospitalLocationRepository =
-        HospitalLocationRepositoryImpl()
+    @HttpClientV2
+    fun provideOkHttpClientGoogleMap(): OkHttpClient {
+        val loggingInterceptor = when (BuildConfig.DEBUG) {
+            true -> HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            false -> HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+        }
+
+        return OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .build()
+    }
+
+    @Provides
+    @RetrofitV2
+    fun provideGoogleMapRetrofit(@HttpClientV2 okHttpClient: OkHttpClient, @BaseUrlV2 googleMapsApiBaseUrl: String): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(googleMapsApiBaseUrl)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    @Provides
+    fun provideGoogleMapApi(@RetrofitV2 googleMapRetrofit: Retrofit): GoogleMapApi =
+        googleMapRetrofit.create(GoogleMapApi::class.java)
+
+    @Provides
+    fun provideHospitalLocationRepository(googleMapApi: GoogleMapApi): HospitalLocationRepository =
+        HospitalLocationRepositoryImpl(googleMapApi)
 
     @Provides
     fun provideHospitalLocationUseCases(repository: HospitalLocationRepository) = HospitalLocationUseCase(
-        GetDetailPlace(repository)
+        GetDetailPlace(repository), GetNearbyHospital(repository)
     )
 
 
 }
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class BaseUrlV1
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class BaseUrlV2
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class HttpClientV1
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class HttpClientV2
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class RetrofitV1
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class RetrofitV2

@@ -44,7 +44,7 @@ data class Geometry(
 	val viewport: Viewport? = null,
 
 	@field:SerializedName("location")
-	val location: Location? = null
+	val location: Location
 )
 
 data class Southwest(
@@ -74,19 +74,19 @@ data class OpeningHours(
 data class Northeast(
 
 	@field:SerializedName("lng")
-	val lng: Long? = null,
+	val lng: Double? = null,
 
 	@field:SerializedName("lat")
-	val lat: Any? = null
+	val lat: Double? = null
 )
 
 data class Location(
 
 	@field:SerializedName("lng")
-	val lng: Any? = null,
+	val lng: Double,
 
 	@field:SerializedName("lat")
-	val lat: Any? = null
+	val lat: Double
 )
 
 data class ResultsItem(
@@ -101,7 +101,7 @@ data class ResultsItem(
 	val icon: String? = null,
 
 	@field:SerializedName("rating")
-	val rating: Int? = null,
+	val rating: Double? = null,
 
 	@field:SerializedName("icon_background_color")
 	val iconBackgroundColor: String? = null,
@@ -110,16 +110,16 @@ data class ResultsItem(
 	val reference: String? = null,
 
 	@field:SerializedName("user_ratings_total")
-	val userRatingsTotal: Int? = null,
+	val userRatingsTotal: Double? = null,
 
 	@field:SerializedName("scope")
 	val scope: String? = null,
 
 	@field:SerializedName("name")
-	val name: String? = null,
+	val name: String = "",
 
 	@field:SerializedName("geometry")
-	val geometry: Geometry? = null,
+	val geometry: Geometry,
 
 	@field:SerializedName("icon_mask_base_uri")
 	val iconMaskBaseUri: String? = null,

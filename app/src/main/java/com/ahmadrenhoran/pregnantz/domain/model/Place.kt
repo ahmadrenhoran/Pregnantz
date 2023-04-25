@@ -1,3 +1,6 @@
 package com.ahmadrenhoran.pregnantz.domain.model
 
-data class Place(val name: String? = null, val address: String? = null)
+import android.location.Location
+import com.google.android.gms.maps.model.LatLng
+
+data class Place(val id: String? = null, val name: String? = null, val address: String? = null, val latLng: LatLng? = null, val noTelp: String = "112")

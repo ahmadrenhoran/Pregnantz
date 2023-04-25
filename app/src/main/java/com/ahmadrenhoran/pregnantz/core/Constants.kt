@@ -16,7 +16,7 @@ object Constants {
 
     // Google Map Places
     // Specify the fields
-    val PLACE_FIELDS = listOf(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.RATING)
+    val PLACE_FIELDS = listOf(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.RATING, Place.Field.PHONE_NUMBER)
 
     // SHARED PREFERENCES
     const val IS_FORM_FILLED = "isFormFilled"

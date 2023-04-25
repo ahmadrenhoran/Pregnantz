@@ -12,6 +12,7 @@ import com.ahmadrenhoran.pregnantz.core.Constants
 import com.ahmadrenhoran.pregnantz.domain.model.Place
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.domain.repository.GetDetailPlaceResponse
+import com.ahmadrenhoran.pregnantz.domain.repository.GetNearbyHospitalResponse
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.HospitalLocationUseCase
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.libraries.places.api.net.PlacesClient
@@ -33,9 +34,26 @@ class HospitalLocationViewModel @Inject constructor(private val useCase: Hospita
     var getDetailPlaceResponse by mutableStateOf<GetDetailPlaceResponse>(Response.Success(Place()))
         private set
 
+    var getNearbyHospitalResponse by mutableStateOf<GetNearbyHospitalResponse>(
+        Response.Success(
+            listOf()
+        )
+    )
+        private set
+
     fun getDetailPlace(placesClient: PlacesClient, placeId: String) = viewModelScope.launch {
         getDetailPlaceResponse = Response.Loading
         getDetailPlaceResponse = useCase.getDetailPlace.invoke(placesClient, placeId)
+        setIsShowDetailPlace(!_uiState.value.isShowDetailPlace)
+    }
+
+    fun getNearbyHospital() = viewModelScope.launch {
+        getNearbyHospitalResponse = Response.Loading
+        if (_uiState.value.lastKnownLocation != null) {
+            getNearbyHospitalResponse = useCase.getNearbyHospital.invoke(_uiState.value.lastKnownLocation!!)
+        } else {
+            getNearbyHospitalResponse = Response.Failure(Exception("Can't find location"))
+        }
     }
 
 
@@ -49,6 +67,7 @@ class HospitalLocationViewModel @Inject constructor(private val useCase: Hospita
                     Log.d(Constants.ALL_TAG, "getDeviceLocation: ${task.result}")
                     if (task.result != null) {
                         setLastKnownLocation(task.result)
+                        getNearbyHospital()
 
                     }
 //                    setMapProperties(MapProperties(isMyLocationEnabled = task.result != null))
