@@ -46,8 +46,8 @@ fun WeightDialog(
                         value = "$weightKg",
                         onValueChange = onValueChange,
                         keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Number,
-                            imeAction = ImeAction.Done
+                            keyboardType = KeyboardType.Decimal,
+                            imeAction = ImeAction.Done,
                         ),
                         singleLine = true,
                         textStyle = TextStyle(fontSize = 60.sp, textAlign = TextAlign.Center)

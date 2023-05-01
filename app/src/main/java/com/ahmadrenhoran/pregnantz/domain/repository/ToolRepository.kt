@@ -4,5 +4,5 @@ import com.ahmadrenhoran.pregnantz.domain.model.Response
 
 interface ToolRepository {
 
-    suspend fun getCurrentWeight(): Response<String>
+    suspend fun getCurrentWeight(): Response<Float>
 }

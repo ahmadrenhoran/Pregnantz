@@ -7,8 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.domain.model.Weight
-import com.ahmadrenhoran.pregnantz.domain.usecase.weight.WeightUseCase
-import com.ahmadrenhoran.pregnantz.ui.feature.tools.ToolsUiState
+import com.ahmadrenhoran.pregnantz.domain.usecase.weight.WeightUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class WeightViewModel @Inject constructor(private val useCase: WeightUseCase): ViewModel() {
+class WeightViewModel @Inject constructor(private val useCase: WeightUseCases): ViewModel() {
 
     private val _uiState = MutableStateFlow(WeightUiState())
     val uiState: StateFlow<WeightUiState> = _uiState.asStateFlow()

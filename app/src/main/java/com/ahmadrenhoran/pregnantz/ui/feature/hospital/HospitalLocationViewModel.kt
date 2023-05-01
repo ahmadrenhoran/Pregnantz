@@ -12,7 +12,7 @@ import com.ahmadrenhoran.pregnantz.domain.model.Place
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.domain.repository.GetDetailPlaceResponse
 import com.ahmadrenhoran.pregnantz.domain.repository.GetNearbyHospitalResponse
-import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.HospitalLocationUseCase
+import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.HospitalLocationUseCases
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.maps.android.compose.MapProperties
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HospitalLocationViewModel @Inject constructor(private val useCase: HospitalLocationUseCase) :
+class HospitalLocationViewModel @Inject constructor(private val useCase: HospitalLocationUseCases) :
     ViewModel() {
     private val _uiState = MutableStateFlow(HospitalLocationUiState())
     val uiState: StateFlow<HospitalLocationUiState> = _uiState.asStateFlow()

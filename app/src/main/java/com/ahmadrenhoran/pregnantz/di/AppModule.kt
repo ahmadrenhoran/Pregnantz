@@ -3,24 +3,20 @@ package com.ahmadrenhoran.pregnantz.di
 import com.ahmadrenhoran.pregnantz.BuildConfig
 import com.ahmadrenhoran.pregnantz.data.remote.ArticleApi
 import com.ahmadrenhoran.pregnantz.data.remote.GoogleMapApi
-import com.ahmadrenhoran.pregnantz.data.repository.ArticleRepositoryImpl
-import com.ahmadrenhoran.pregnantz.data.repository.AuthRepositoryImpl
-import com.ahmadrenhoran.pregnantz.data.repository.HospitalLocationRepositoryImpl
-import com.ahmadrenhoran.pregnantz.data.repository.WeightRepositoryImpl
-import com.ahmadrenhoran.pregnantz.domain.repository.ArticleRepository
-import com.ahmadrenhoran.pregnantz.domain.repository.AuthRepository
-import com.ahmadrenhoran.pregnantz.domain.repository.HospitalLocationRepository
-import com.ahmadrenhoran.pregnantz.domain.repository.WeightRepository
+import com.ahmadrenhoran.pregnantz.data.repository.*
+import com.ahmadrenhoran.pregnantz.domain.repository.*
 import com.ahmadrenhoran.pregnantz.domain.usecase.article.ArticleUseCases
 import com.ahmadrenhoran.pregnantz.domain.usecase.article.GetArticles
 import com.ahmadrenhoran.pregnantz.domain.usecase.auth.*
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetDetailPlace
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetNearbyHospital
-import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.HospitalLocationUseCase
+import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.HospitalLocationUseCases
+import com.ahmadrenhoran.pregnantz.domain.usecase.tool.GetCurrentWeight
+import com.ahmadrenhoran.pregnantz.domain.usecase.tool.ToolUseCases
 import com.ahmadrenhoran.pregnantz.domain.usecase.weight.AddWeight
 import com.ahmadrenhoran.pregnantz.domain.usecase.weight.DeleteWeight
 import com.ahmadrenhoran.pregnantz.domain.usecase.weight.GetWeightHistory
-import com.ahmadrenhoran.pregnantz.domain.usecase.weight.WeightUseCase
+import com.ahmadrenhoran.pregnantz.domain.usecase.weight.WeightUseCases
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
@@ -123,6 +119,25 @@ class AppModule {
         AddDataUserToDatabase(repository),
     )
 
+    // Tool
+    @Provides
+    fun provideToolRepository(
+        auth: FirebaseAuth,
+        db: FirebaseDatabase,
+    ): ToolRepository = ToolRepositoryImpl(
+        auth = auth,
+        db = db,
+    )
+
+    @Provides
+    fun provideToolUseCases(
+        repository: ToolRepository, weightRepository: WeightRepository
+    ): ToolUseCases = ToolUseCases(
+        getCurrentWeight = GetCurrentWeight(repository),
+        addWeight = AddWeight(weightRepository)
+    )
+
+
     // Hospital
     @Provides
     @HttpClientV2
@@ -159,7 +174,7 @@ class AppModule {
 
     @Provides
     fun provideHospitalLocationUseCases(repository: HospitalLocationRepository) =
-        HospitalLocationUseCase(
+        HospitalLocationUseCases(
             GetDetailPlace(repository), GetNearbyHospital(repository)
         )
 
@@ -169,7 +184,7 @@ class AppModule {
         WeightRepositoryImpl(auth, db)
 
     @Provides
-    fun provideWeightUseCase(repository: WeightRepository) = WeightUseCase(
+    fun provideWeightUseCase(repository: WeightRepository) = WeightUseCases(
         addWeight = AddWeight(repository),
         getWeightHistory = GetWeightHistory(repository), deleteWeight = DeleteWeight(repository)
     )

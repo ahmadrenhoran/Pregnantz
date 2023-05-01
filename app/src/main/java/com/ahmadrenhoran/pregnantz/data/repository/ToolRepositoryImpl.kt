@@ -14,10 +14,10 @@ class ToolRepositoryImpl @Inject constructor(private val auth: FirebaseAuth, pri
     ToolRepository {
     private val weightsRef = db.reference.child("weights")
     private val uid = auth.currentUser?.uid.toString()
-    override suspend fun getCurrentWeight(): Response<String> {
+    override suspend fun getCurrentWeight(): Response<Float> {
         return try {
             val weight = weightsRef.child(uid).limitToLast(1).get().await().children.mapNotNull { it.getValue<Weight>() }
-            Response.Success(weight[0].weightKg.toString())
+            Response.Success(weight[0].weightKg)
         } catch (e: Exception) {
             Response.Failure(e)
         }
