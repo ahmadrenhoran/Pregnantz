@@ -25,6 +25,7 @@ import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationViewModel
 import com.ahmadrenhoran.pregnantz.ui.feature.splashscreen.SplashScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.tools.ToolsScreen
+import com.ahmadrenhoran.pregnantz.ui.feature.weight.WeightScreen
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -122,6 +123,11 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
                 HomeScreen()
             }
 
+            // Article
+            composable(route = PregnantzHomeScreen.Article.name) {
+                ArticleScreen()
+            }
+
             composable(route = PregnantzHomeScreen.Tools.name) {
 
                 val hospitalViewModel: HospitalLocationViewModel = hiltViewModel()
@@ -135,17 +141,22 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
                         if (result) {
                             appState.navController.navigate(PregnantzToolsScreen.HospitalLocationScreen.name)
                         }
+
                     }
-                )
+                ) {
+                    appState.navController.navigate(PregnantzToolsScreen.WeightScreen.name)
+                }
 
             }
 
-            composable(route = PregnantzHomeScreen.Article.name) {
-                ArticleScreen()
-            }
+
             // Tools
             composable(route = PregnantzToolsScreen.HospitalLocationScreen.name) {
                 HospitalLocationScreen(context = context)
+            }
+
+            composable(route = PregnantzToolsScreen.WeightScreen.name) {
+                WeightScreen()
             }
         }
 

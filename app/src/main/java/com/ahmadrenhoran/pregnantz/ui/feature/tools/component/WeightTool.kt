@@ -18,7 +18,6 @@ fun WeightTool(modifier: Modifier = Modifier, onClick: () -> Unit, onClickAddWei
             Text(text = "My Weight")
             Spacer(modifier = Modifier.height(12.dp))
             Text(text = "60 KG", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.displaySmall, fontSize = 40.sp, textAlign = TextAlign.Center)
-
             Spacer(modifier = Modifier.height(12.dp))
             Button(onClick = onClickAddWeight, modifier = Modifier.fillMaxWidth()) {
                 Text(text = "Add Weight")

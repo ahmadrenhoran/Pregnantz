@@ -1,4 +1,4 @@
-package com.ahmadrenhoran.pregnantz.ui.feature.hospital
+package com.ahmadrenhoran.pregnantz.ui.feature.hospital.component
 
 
 object MapStyle {

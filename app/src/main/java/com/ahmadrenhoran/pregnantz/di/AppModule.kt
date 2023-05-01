@@ -6,15 +6,21 @@ import com.ahmadrenhoran.pregnantz.data.remote.GoogleMapApi
 import com.ahmadrenhoran.pregnantz.data.repository.ArticleRepositoryImpl
 import com.ahmadrenhoran.pregnantz.data.repository.AuthRepositoryImpl
 import com.ahmadrenhoran.pregnantz.data.repository.HospitalLocationRepositoryImpl
+import com.ahmadrenhoran.pregnantz.data.repository.WeightRepositoryImpl
 import com.ahmadrenhoran.pregnantz.domain.repository.ArticleRepository
 import com.ahmadrenhoran.pregnantz.domain.repository.AuthRepository
 import com.ahmadrenhoran.pregnantz.domain.repository.HospitalLocationRepository
+import com.ahmadrenhoran.pregnantz.domain.repository.WeightRepository
 import com.ahmadrenhoran.pregnantz.domain.usecase.article.ArticleUseCases
 import com.ahmadrenhoran.pregnantz.domain.usecase.article.GetArticles
 import com.ahmadrenhoran.pregnantz.domain.usecase.auth.*
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetDetailPlace
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetNearbyHospital
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.HospitalLocationUseCase
+import com.ahmadrenhoran.pregnantz.domain.usecase.weight.AddWeight
+import com.ahmadrenhoran.pregnantz.domain.usecase.weight.DeleteWeight
+import com.ahmadrenhoran.pregnantz.domain.usecase.weight.GetWeightHistory
+import com.ahmadrenhoran.pregnantz.domain.usecase.weight.WeightUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
@@ -30,9 +36,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Named
 import javax.inject.Qualifier
-import javax.inject.Singleton
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -53,7 +57,8 @@ class AppModule {
 
     @Provides
     @BaseUrlV2
-    fun provideGoogleMapsApiBaseUrl(): String = "https://maps.googleapis.com/maps/api/place/nearbysearch/"
+    fun provideGoogleMapsApiBaseUrl(): String =
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/"
 
 
     // Article
@@ -73,7 +78,10 @@ class AppModule {
 
     @Provides
     @RetrofitV1
-    fun provideArticleRetrofit(@HttpClientV1 okHttpClient: OkHttpClient, @BaseUrlV1 articleBaseUrl: String): Retrofit =
+    fun provideArticleRetrofit(
+        @HttpClientV1 okHttpClient: OkHttpClient,
+        @BaseUrlV1 articleBaseUrl: String
+    ): Retrofit =
         Retrofit.Builder()
             .baseUrl(articleBaseUrl)
             .client(okHttpClient)
@@ -131,12 +139,16 @@ class AppModule {
 
     @Provides
     @RetrofitV2
-    fun provideGoogleMapRetrofit(@HttpClientV2 okHttpClient: OkHttpClient, @BaseUrlV2 googleMapsApiBaseUrl: String): Retrofit =
+    fun provideGoogleMapRetrofit(
+        @HttpClientV2 okHttpClient: OkHttpClient,
+        @BaseUrlV2 googleMapsApiBaseUrl: String
+    ): Retrofit =
         Retrofit.Builder()
             .baseUrl(googleMapsApiBaseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
     @Provides
     fun provideGoogleMapApi(@RetrofitV2 googleMapRetrofit: Retrofit): GoogleMapApi =
         googleMapRetrofit.create(GoogleMapApi::class.java)
@@ -146,8 +158,20 @@ class AppModule {
         HospitalLocationRepositoryImpl(googleMapApi)
 
     @Provides
-    fun provideHospitalLocationUseCases(repository: HospitalLocationRepository) = HospitalLocationUseCase(
-        GetDetailPlace(repository), GetNearbyHospital(repository)
+    fun provideHospitalLocationUseCases(repository: HospitalLocationRepository) =
+        HospitalLocationUseCase(
+            GetDetailPlace(repository), GetNearbyHospital(repository)
+        )
+
+    // Weight
+    @Provides
+    fun provideWeightRepository(auth: FirebaseAuth, db: FirebaseDatabase): WeightRepository =
+        WeightRepositoryImpl(auth, db)
+
+    @Provides
+    fun provideWeightUseCase(repository: WeightRepository) = WeightUseCase(
+        addWeight = AddWeight(repository),
+        getWeightHistory = GetWeightHistory(repository), deleteWeight = DeleteWeight(repository)
     )
 
 

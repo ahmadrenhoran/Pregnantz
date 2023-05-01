@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ahmadrenhoran.pregnantz.core.Constants
-import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationViewModel
 import com.ahmadrenhoran.pregnantz.ui.feature.tools.component.HospitalDialogEvent
 import com.ahmadrenhoran.pregnantz.ui.feature.tools.component.HospitalTool
 import com.ahmadrenhoran.pregnantz.ui.feature.tools.component.PregnancyCalculatorTool
@@ -28,6 +27,7 @@ fun ToolsScreen(
     modifier: Modifier = Modifier,
     onHospitalClick: () -> Unit,
     viewModel: ToolsViewModel = hiltViewModel(),
+    onWeightClick: () -> Unit,
 ) {
 
     val uiState = viewModel.uiState.collectAsState()
@@ -42,20 +42,11 @@ fun ToolsScreen(
         mutableStateOf(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
     }
 
-
-
-
-
-
-
-
     Column(modifier = modifier.padding(16.dp)) {
         Text(text = "Tools", fontSize = 24.sp, color = MaterialTheme.colorScheme.onBackground)
         Spacer(modifier = modifier.height(8.dp))
-        WeightTool(onClick = {
-
-        }, onClickAddWeight = {
-
+        WeightTool(onClick = onWeightClick, onClickAddWeight = {
+            viewModel.setShouldShowWeightDialog(!uiState.value.shouldShowWeightDialog)
         })
         Spacer(modifier = modifier.height(8.dp))
         Row() {
@@ -74,7 +65,6 @@ fun ToolsScreen(
                 if (locationPermissionsState.allPermissionsGranted) {
                     viewModel.setShouldShowPermissionDialog(false)
                     if (gpsEnabled) { // If User, not activate the GPS
-
                         onHospitalClick()
                     } else {
                         viewModel.setShouldShowGPSDialog(true)
@@ -93,8 +83,6 @@ fun ToolsScreen(
 
         }
     }
-
-
 
     HospitalDialogEvent(
         uiState = uiState,

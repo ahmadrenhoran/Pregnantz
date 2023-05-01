@@ -8,6 +8,7 @@ import com.ahmadrenhoran.pregnantz.domain.model.User
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.firebase.auth.FirebaseUser
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -91,6 +92,16 @@ object Utils {
         val canvas = android.graphics.Canvas(bm)
         drawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bm)
+    }
+
+    fun getTimeDate(timestamp: Long): String? {
+        return try {
+            val dateFormat: DateFormat = DateFormat.getDateTimeInstance()
+            val netDate = Date(timestamp)
+            dateFormat.format(netDate)
+        } catch (e: Exception) {
+            "date"
+        }
     }
 
 

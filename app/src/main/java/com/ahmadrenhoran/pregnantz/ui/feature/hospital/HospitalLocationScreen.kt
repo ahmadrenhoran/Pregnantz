@@ -2,9 +2,6 @@ package com.ahmadrenhoran.pregnantz.ui.feature.hospital
 
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,8 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ahmadrenhoran.pregnantz.R
-import com.ahmadrenhoran.pregnantz.core.Constants
-import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.ui.feature.hospital.component.HospitalDetailPlaceResponse
 import com.ahmadrenhoran.pregnantz.ui.feature.hospital.component.HospitalNearbyMarker
 import com.google.android.gms.location.LocationServices
@@ -28,8 +23,9 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.libraries.places.api.Places
-import com.google.maps.android.compose.*
-import com.google.maps.android.ktx.model.markerOptions
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.rememberCameraPositionState
 
 
 @Composable

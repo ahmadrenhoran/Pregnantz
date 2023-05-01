@@ -133,6 +133,20 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:3.0.0'
 
 
+    // Chart
+    implementation "com.github.tehras:charts:0.2.4-alpha"
+
+    // Includes the core logic for charts and other elements.
+    implementation "com.patrykandpatrick.vico:core:1.6.5"
+
+    // For Jetpack Compose.
+    implementation "com.patrykandpatrick.vico:compose:1.6.5"
+
+
+    // For `compose`. Creates a `ChartStyle` based on an M3 Material Theme.
+    implementation "com.patrykandpatrick.vico:compose-m3:1.6.5"
+
+
 
 
 

@@ -4,7 +4,6 @@ import android.location.Location
 import com.ahmadrenhoran.pregnantz.domain.model.Place
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.google.android.libraries.places.api.net.PlacesClient
-import retrofit2.http.GET
 
 
 typealias GetDetailPlaceResponse = Response<Place>

@@ -24,4 +24,10 @@ class ToolsViewModel @Inject constructor(): ViewModel() {
             it.copy(shouldShowGPSDialog = boolean)
         }
     }
+
+    fun setShouldShowWeightDialog(boolean: Boolean) {
+        _uiState.update {
+            it.copy(shouldShowWeightDialog = boolean)
+        }
+    }
 }
