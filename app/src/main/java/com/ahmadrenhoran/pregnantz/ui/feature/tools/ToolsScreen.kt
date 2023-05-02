@@ -13,10 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ahmadrenhoran.pregnantz.core.Constants
-import com.ahmadrenhoran.pregnantz.ui.feature.tools.component.HospitalDialogEvent
-import com.ahmadrenhoran.pregnantz.ui.feature.tools.component.HospitalTool
-import com.ahmadrenhoran.pregnantz.ui.feature.tools.component.PregnancyCalculatorTool
-import com.ahmadrenhoran.pregnantz.ui.feature.tools.component.WeightTool
+import com.ahmadrenhoran.pregnantz.ui.feature.tools.component.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
@@ -27,6 +24,7 @@ fun ToolsScreen(
     modifier: Modifier = Modifier,
     onHospitalClick: () -> Unit,
     viewModel: ToolsViewModel = hiltViewModel(),
+    context: Context,
     onWeightClick: () -> Unit,
 ) {
 
@@ -42,7 +40,7 @@ fun ToolsScreen(
         mutableStateOf(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
     }
 
-    Column(modifier = modifier.padding(16.dp)) {
+    Column(modifier = modifier.padding(bottom = 0.dp, start = 16.dp, end = 16.dp, top = 16.dp)) {
         Text(text = "Tools", fontSize = 24.sp, color = MaterialTheme.colorScheme.onBackground)
         Spacer(modifier = modifier.height(8.dp))
         WeightTool(onClick = onWeightClick, onClickAddWeight = {
@@ -80,8 +78,10 @@ fun ToolsScreen(
             ) {
 
             }
-
         }
+
+        Spacer(modifier = Modifier.weight(1f))
+        PanicButton(modifier = Modifier.fillMaxWidth(), context = context)
     }
 
     HospitalDialogEvent(

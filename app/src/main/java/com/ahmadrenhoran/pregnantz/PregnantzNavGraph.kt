@@ -141,8 +141,7 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
                         if (result) {
                             appState.navController.navigate(PregnantzToolsScreen.HospitalLocationScreen.name)
                         }
-
-                    }
+                    }, context = context
                 ) {
                     appState.navController.navigate(PregnantzToolsScreen.WeightScreen.name)
                 }

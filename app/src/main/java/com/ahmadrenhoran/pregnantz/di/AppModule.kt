@@ -11,8 +11,7 @@ import com.ahmadrenhoran.pregnantz.domain.usecase.auth.*
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetDetailPlace
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetNearbyHospital
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.HospitalLocationUseCases
-import com.ahmadrenhoran.pregnantz.domain.usecase.tool.GetCurrentWeight
-import com.ahmadrenhoran.pregnantz.domain.usecase.tool.ToolUseCases
+import com.ahmadrenhoran.pregnantz.domain.usecase.tool.*
 import com.ahmadrenhoran.pregnantz.domain.usecase.weight.AddWeight
 import com.ahmadrenhoran.pregnantz.domain.usecase.weight.DeleteWeight
 import com.ahmadrenhoran.pregnantz.domain.usecase.weight.GetWeightHistory
@@ -134,7 +133,10 @@ class AppModule {
         repository: ToolRepository, weightRepository: WeightRepository
     ): ToolUseCases = ToolUseCases(
         getCurrentWeight = GetCurrentWeight(repository),
-        addWeight = AddWeight(weightRepository)
+        addWeight = AddWeight(weightRepository),
+        insertPanicNumber = InsertPanicNumber(repository),
+        deletePanicNumber = DeletePanicNumber(repository),
+        getListPanicNumbers = GetListPanicNumbers(repository)
     )
 
 
