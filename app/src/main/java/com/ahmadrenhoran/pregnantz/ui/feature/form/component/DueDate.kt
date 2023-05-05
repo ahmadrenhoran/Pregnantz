@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ahmadrenhoran.pregnantz.core.Constants
 import com.ahmadrenhoran.pregnantz.core.DueDateMenu
+import com.ahmadrenhoran.pregnantz.core.Utils
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
@@ -19,12 +20,11 @@ import java.time.LocalDate
 import java.util.*
 
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DueDate(
     modifier: Modifier = Modifier,
-    dueDate: String = "",
+    dueDate: String = LocalDate.now().toString(),
     onDueDateChange: (String) -> Unit,
     dueDateMenu: DueDateMenu,
     dueDateMenuExpand: Boolean,
@@ -83,7 +83,7 @@ fun DueDate(
                             if (date in dueDateMenu.boundary) onDueDateChange(date.toString())
                             else onDueDateChange(LocalDate.now().toString())
                             onMenuItemClick(dueDateMenu)
-                                  },
+                        },
                         text = { Text(text = dueDateMenu.name) }
                     )
                 }
@@ -93,7 +93,7 @@ fun DueDate(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = dueDate,
+            value = Utils.TimeFormatter(LocalDate.parse(dueDate)),
             interactionSource = remember { MutableInteractionSource() }
                 .also { interactionSource ->
                     LaunchedEffect(interactionSource) {

@@ -19,6 +19,7 @@ import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzToolsScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.article.ArticleScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.authentication.LoginScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.authentication.RegisterScreen
+import com.ahmadrenhoran.pregnantz.ui.feature.calculator.CalculatorScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.form.FormScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.home.HomeScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationScreen
@@ -136,15 +137,17 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
                     LocationServices.getFusedLocationProviderClient(context)
                 ToolsScreen(
                     onHospitalClick = {
-                        val result = hospitalViewModel.getDeviceLocation(fusedLocationProviderClient)
+                        val result =
+                            hospitalViewModel.getDeviceLocation(fusedLocationProviderClient)
                         Log.d(ALL_TAG, "PregnantzNavGraph: " + result)
                         if (result) {
                             appState.navController.navigate(PregnantzToolsScreen.HospitalLocationScreen.name)
                         }
-                    }, context = context
-                ) {
-                    appState.navController.navigate(PregnantzToolsScreen.WeightScreen.name)
-                }
+                    }, context = context, onWeightClick = {
+                        appState.navController.navigate(PregnantzToolsScreen.WeightScreen.name)
+                    }, onCalculatorClick = {
+                        appState.navController.navigate(PregnantzToolsScreen.PregnancyCalculator.name)
+                    })
 
             }
 
@@ -156,6 +159,10 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
 
             composable(route = PregnantzToolsScreen.WeightScreen.name) {
                 WeightScreen()
+            }
+
+            composable(route = PregnantzToolsScreen.PregnancyCalculator.name) {
+                CalculatorScreen()
             }
         }
 

@@ -11,7 +11,9 @@ import com.google.firebase.auth.FirebaseUser
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalAdjusters
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.math.absoluteValue
@@ -104,6 +106,63 @@ object Utils {
         }
     }
 
+    fun TimeFormatter(date: LocalDate): String {
+        val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+        return date.format(formatter)
+    }
+
+
+}
+
+object PregnancyUtils {
+
+
+    fun getWeeksList(dueDate: LocalDate): List<LocalDate> {
+        val weeksList = mutableListOf<LocalDate>()
+        val fortyTwoWeeks = dueDate.plusWeeks(2)
+        var weekStartDate = fortyTwoWeeks.minusWeeks(42).plusDays(1)
+
+        while (weekStartDate.isBefore(fortyTwoWeeks)) {
+            weeksList.add(weekStartDate)
+            weekStartDate = weekStartDate.plusWeeks(1)
+        }
+        weeksList.add(fortyTwoWeeks)
+
+        return weeksList
+    }
+
+    fun getWeeksList(dueDates: String): List<LocalDate> {
+        val weeksList = mutableListOf<LocalDate>()
+        val dueDate = LocalDate.parse(dueDates)
+        val fortyTwoWeeks = dueDate.plusWeeks(2)
+        var weekStartDate = fortyTwoWeeks.minusWeeks(42).plusDays(1)
+
+        while (weekStartDate.isBefore(fortyTwoWeeks)) {
+            weeksList.add(weekStartDate)
+            weekStartDate = weekStartDate.plusWeeks(1)
+        }
+        weeksList.add(fortyTwoWeeks)
+
+        return weeksList
+    }
+
+    fun getFirstDayOfLastPeriodDueDate(localDate: LocalDate): String {
+        val days = 7
+        val months = 3
+        val year = 1
+
+        val expectedDueDate = localDate.plusDays(days.toLong())
+            .minusMonths(months.toLong())
+            .plusYears(year.toLong())
+
+        return expectedDueDate.toString()
+    }
+
+    fun getDueWeeks(localDate: LocalDate) =
+        ChronoUnit.WEEKS.between(localDate, LocalDate.now()).absoluteValue
+
+    fun getDueDays(localDate: LocalDate) =
+        ChronoUnit.DAYS.between(localDate, LocalDate.now()).absoluteValue % 7
 
 }
 

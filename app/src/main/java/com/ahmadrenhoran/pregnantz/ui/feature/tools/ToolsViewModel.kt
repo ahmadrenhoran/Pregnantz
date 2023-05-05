@@ -1,5 +1,6 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.tools
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -31,7 +32,11 @@ class ToolsViewModel @Inject constructor(private val useCases: ToolUseCases) : V
     var deletePanicNumberResponse by mutableStateOf<Response<Boolean>>(Response.Success(false))
         private set
 
-    var getListPanicNumbersResponse by mutableStateOf<Response<List<PanicNumber>>>(Response.Success(listOf()))
+    var getListPanicNumbersResponse by mutableStateOf<Response<List<PanicNumber>>>(
+        Response.Success(
+            listOf()
+        )
+    )
         private set
 
     init {
@@ -39,14 +44,29 @@ class ToolsViewModel @Inject constructor(private val useCases: ToolUseCases) : V
         getListPanicNumbers()
     }
 
+
+
     fun getCurrentWeight() = viewModelScope.launch {
         getCurrentWeightResponse = Response.Loading
         getCurrentWeightResponse = useCases.getCurrentWeight.invoke()
+
     }
 
     fun insertPanicNumber() = viewModelScope.launch {
-        insertPanicNumberResponse = Response.Loading
-        insertPanicNumberResponse = useCases.insertPanicNumber(_uiState.value.panicNumber)
+        if (_uiState.value.panicNumber.length == 12) {
+            if (!_uiState.value.listPanicNumbers.map { it.number }
+                    .contains(_uiState.value.panicNumber)) // If the number not on the list
+            {
+                insertPanicNumberResponse = Response.Loading
+                insertPanicNumberResponse = useCases.insertPanicNumber(_uiState.value.panicNumber)
+                setPanicNumber("")
+            } else {
+
+                insertPanicNumberResponse = Response.Failure(Exception("Number is exist"))
+            }
+        } else {
+            insertPanicNumberResponse = Response.Failure(Exception("Number is not valid"))
+        }
     }
 
     fun deletePanicNumber(numberId: String) = viewModelScope.launch {

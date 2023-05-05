@@ -27,7 +27,7 @@ import kotlinx.coroutines.Job
 fun WeightDialog(
     modifier: Modifier = Modifier,
     isShow: Boolean = false,
-    weightKg: Float = 1.0f,
+    weightKg: Float,
     onClick: () -> Unit,
     onValueChange: (String) -> Unit,
     onDismissRequest: () -> Unit
@@ -43,7 +43,7 @@ fun WeightDialog(
                         .wrapContentWidth(align = Alignment.CenterHorizontally)
                 ) {
                     TextField(
-                        value = "$weightKg",
+                        value = weightKg.toString(),
                         onValueChange = onValueChange,
                         keyboardOptions = KeyboardOptions.Default.copy(
                             keyboardType = KeyboardType.Decimal,

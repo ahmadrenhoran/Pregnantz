@@ -1,5 +1,6 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.tools.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -10,6 +11,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ahmadrenhoran.pregnantz.core.Constants
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.ui.feature.tools.ToolsViewModel
 import com.ahmadrenhoran.pregnantz.ui.feature.weight.component.WeightDialog
@@ -33,7 +35,7 @@ fun WeightTool(
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = if (uiState.value.currentWeight == 0f)
-                    "No Data" else uiState.value.currentWeight.toString(),
+                    "No Data" else " ${uiState.value.currentWeight} KG",
                 modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.displaySmall,
                 fontSize = 40.sp,
@@ -53,12 +55,12 @@ fun WeightTool(
             viewModel.setShouldShowWeightDialog(false)
         },
         isShow = uiState.value.shouldShowWeightDialog,
-        weightKg = uiState.value.currentWeight,
+        weightKg = uiState.value.currentWeight.toFloat(),
         onValueChange = {
             try {
                 viewModel.setCurrentWeight(it.toFloat())
             } catch (e: NumberFormatException) {
-
+                Log.d(Constants.ALL_TAG, "WeightTool: " + e.message)
             }
         },
         onDismissRequest = {
@@ -74,7 +76,7 @@ fun WeightTool(
             }
         }
         is Response.Failure -> {
-            viewModel.setCurrentWeight(0f)
+//            viewModel.setCurrentWeight(0f)
         }
     }
 

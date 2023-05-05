@@ -22,10 +22,11 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 @Composable
 fun ToolsScreen(
     modifier: Modifier = Modifier,
-    onHospitalClick: () -> Unit,
     viewModel: ToolsViewModel = hiltViewModel(),
     context: Context,
     onWeightClick: () -> Unit,
+    onHospitalClick: () -> Unit,
+    onCalculatorClick: () -> Unit,
 ) {
 
     val uiState = viewModel.uiState.collectAsState()
@@ -74,10 +75,7 @@ fun ToolsScreen(
             PregnancyCalculatorTool(
                 modifier = Modifier
                     .weight(1f)
-                    .height(240.dp)
-            ) {
-
-            }
+                    .height(240.dp), onClick = onCalculatorClick)
         }
 
         Spacer(modifier = Modifier.weight(1f))

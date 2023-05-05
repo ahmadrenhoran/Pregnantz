@@ -91,7 +91,6 @@ fun PanicButton(
         onClick = {
             if (uiState.listPanicNumbers.size <= 5) {
                 viewModel.insertPanicNumber()
-                viewModel.getListPanicNumbers()
             }
         },
         onDelete = {
