@@ -4,10 +4,8 @@ import com.ahmadrenhoran.pregnantz.domain.model.PanicNumber
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.domain.model.Weight
 import com.ahmadrenhoran.pregnantz.domain.repository.ToolRepository
-import com.ahmadrenhoran.pregnantz.domain.repository.WeightRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject

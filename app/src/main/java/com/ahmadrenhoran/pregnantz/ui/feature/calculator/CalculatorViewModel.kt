@@ -1,12 +1,7 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.calculator
 
-import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
-import com.ahmadrenhoran.pregnantz.core.Constants
 import com.ahmadrenhoran.pregnantz.core.DueDateMenu
-import com.ahmadrenhoran.pregnantz.core.PregnancyUtils
-import com.ahmadrenhoran.pregnantz.core.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

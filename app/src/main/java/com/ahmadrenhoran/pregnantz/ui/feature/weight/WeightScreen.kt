@@ -1,8 +1,6 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.weight
 
 import android.annotation.SuppressLint
-import android.util.Log
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,33 +15,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ahmadrenhoran.pregnantz.core.Constants
 import com.ahmadrenhoran.pregnantz.core.Utils
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.domain.model.Weight
 import com.ahmadrenhoran.pregnantz.ui.component.Dialog
-import com.ahmadrenhoran.pregnantz.ui.component.ProgressBar
 import com.ahmadrenhoran.pregnantz.ui.feature.weight.component.WeightDialog
 import com.ahmadrenhoran.pregnantz.ui.feature.weight.component.rememberChartStyle
 import com.ahmadrenhoran.pregnantz.ui.feature.weight.component.rememberMarker
-import com.github.tehras.charts.line.LineChart
 import com.github.tehras.charts.line.LineChartData
-
-import com.github.tehras.charts.line.renderer.xaxis.SimpleXAxisDrawer
-import com.github.tehras.charts.line.renderer.yaxis.SimpleYAxisDrawer
 import com.github.tehras.charts.line.renderer.line.SolidLineDrawer
-import com.github.tehras.charts.line.renderer.point.HollowCircularPointDrawer
-import com.github.tehras.charts.piechart.animation.simpleChartAnimation
 import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
-import com.patrykandpatrick.vico.core.axis.AxisPosition
-import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.entry.FloatEntry
-import com.patrykandpatrick.vico.core.entry.entryModelOf
 
 
 @OptIn(ExperimentalMaterial3Api::class)

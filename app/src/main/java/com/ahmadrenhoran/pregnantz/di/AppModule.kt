@@ -11,6 +11,10 @@ import com.ahmadrenhoran.pregnantz.domain.usecase.auth.*
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetDetailPlace
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetNearbyHospital
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.HospitalLocationUseCases
+import com.ahmadrenhoran.pregnantz.domain.usecase.profile.GetUserData
+import com.ahmadrenhoran.pregnantz.domain.usecase.profile.LogOut
+import com.ahmadrenhoran.pregnantz.domain.usecase.profile.ProfileUseCase
+import com.ahmadrenhoran.pregnantz.domain.usecase.profile.UpdateUserData
 import com.ahmadrenhoran.pregnantz.domain.usecase.tool.*
 import com.ahmadrenhoran.pregnantz.domain.usecase.weight.AddWeight
 import com.ahmadrenhoran.pregnantz.domain.usecase.weight.DeleteWeight
@@ -190,6 +194,15 @@ class AppModule {
         addWeight = AddWeight(repository),
         getWeightHistory = GetWeightHistory(repository), deleteWeight = DeleteWeight(repository)
     )
+
+    // Profile
+    @Provides
+    fun provideProfileRepository(auth: FirebaseAuth, db: FirebaseDatabase): ProfileRepository =
+        ProfileRepositoryImpl(auth, db)
+
+    @Provides
+    fun provideProfileUseCase(repository: ProfileRepository, authRepository: AuthRepository) =
+        ProfileUseCase(logOut = LogOut(repository), getUserData = GetUserData(repository), updateUserData = UpdateUserData(repository), addImageToStorage = AddImageToStorage(authRepository))
 
 
 }

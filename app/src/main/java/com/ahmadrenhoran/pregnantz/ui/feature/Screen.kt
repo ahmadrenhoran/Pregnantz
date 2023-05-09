@@ -30,3 +30,7 @@ enum class PregnantzToolsScreen(val route: String) {
     WeightScreen(route = "WeightScreen"),
     PregnancyCalculator(route = "PregnancyCalculator"),
 }
+
+enum class PregnantzOtherScreen(val route: String) {
+    ProfileScreen(route = "ProfileScreen")
+}

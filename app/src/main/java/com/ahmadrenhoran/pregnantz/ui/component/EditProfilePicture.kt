@@ -21,9 +21,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.ahmadrenhoran.pregnantz.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
-fun EditProfilePicture(onUploadImage: (imageUri: Uri) -> Unit) {
+fun EditProfilePicture(onUploadImage: (imageUri: Uri) -> Unit, currentPicture: String) {
     var selectedImageUri by remember {
         mutableStateOf<Uri?>(null)
     }
@@ -37,13 +40,14 @@ fun EditProfilePicture(onUploadImage: (imageUri: Uri) -> Unit) {
             }
         }
     )
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentWidth(align = Alignment.CenterHorizontally)
     ) {
         AsyncImage(
-            model = selectedImageUri ?: R.drawable.logo_light,
+            model = selectedImageUri ?: currentPicture,
             contentDescription = "Profile Picture",
             modifier = Modifier
                 .size(128.dp)

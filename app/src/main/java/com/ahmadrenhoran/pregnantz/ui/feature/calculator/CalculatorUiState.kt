@@ -1,10 +1,8 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.calculator
 
-import android.net.Uri
 import com.ahmadrenhoran.pregnantz.core.Constants
 import com.ahmadrenhoran.pregnantz.core.DueDateMenu
 import com.ahmadrenhoran.pregnantz.core.PregnancyUtils
-import com.ahmadrenhoran.pregnantz.core.Utils
 import java.time.LocalDate
 
 data class CalculatorUiState(

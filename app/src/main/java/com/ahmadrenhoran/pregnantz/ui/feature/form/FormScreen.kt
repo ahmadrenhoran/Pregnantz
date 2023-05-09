@@ -66,7 +66,7 @@ fun FormScreen(
                 Spacer(modifier = Modifier.padding(12.dp))
                 EditProfilePicture(onUploadImage = { uri ->
                     viewModel.addImageToStorage(uri)
-                })
+                }, R.drawable.logo_light.toString())
                 Spacer(modifier = Modifier.padding(12.dp))
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),

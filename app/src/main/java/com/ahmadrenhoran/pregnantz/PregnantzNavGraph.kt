@@ -15,6 +15,7 @@ import com.ahmadrenhoran.pregnantz.core.Constants.ALL_TAG
 import com.ahmadrenhoran.pregnantz.ui.component.PregnantzBottomNavigation
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzAuthScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzHomeScreen
+import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzOtherScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzToolsScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.article.ArticleScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.authentication.LoginScreen
@@ -24,6 +25,7 @@ import com.ahmadrenhoran.pregnantz.ui.feature.form.FormScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.home.HomeScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationViewModel
+import com.ahmadrenhoran.pregnantz.ui.feature.profile.ProfileScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.splashscreen.SplashScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.tools.ToolsScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.weight.WeightScreen
@@ -121,7 +123,7 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
 
             // Home
             composable(route = PregnantzHomeScreen.Home.name) {
-                HomeScreen()
+                HomeScreen(onProfileClick = { appState.navController.navigate(PregnantzOtherScreen.ProfileScreen.name) })
             }
 
             // Article
@@ -163,6 +165,14 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
 
             composable(route = PregnantzToolsScreen.PregnancyCalculator.name) {
                 CalculatorScreen()
+            }
+
+            // Other
+            composable(route = PregnantzOtherScreen.ProfileScreen.name) {
+                ProfileScreen(onLogOut = {
+
+                    appState.navController.navigate(PregnantzAuthScreen.Splash.name)
+                })
             }
         }
 
