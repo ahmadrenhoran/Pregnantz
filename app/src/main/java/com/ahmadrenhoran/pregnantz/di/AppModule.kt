@@ -8,6 +8,7 @@ import com.ahmadrenhoran.pregnantz.domain.repository.*
 import com.ahmadrenhoran.pregnantz.domain.usecase.article.ArticleUseCases
 import com.ahmadrenhoran.pregnantz.domain.usecase.article.GetArticles
 import com.ahmadrenhoran.pregnantz.domain.usecase.auth.*
+import com.ahmadrenhoran.pregnantz.domain.usecase.home.HomeUseCase
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetDetailPlace
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.GetNearbyHospital
 import com.ahmadrenhoran.pregnantz.domain.usecase.hospitallocation.HospitalLocationUseCases
@@ -203,6 +204,10 @@ class AppModule {
     @Provides
     fun provideProfileUseCase(repository: ProfileRepository, authRepository: AuthRepository) =
         ProfileUseCase(logOut = LogOut(repository), getUserData = GetUserData(repository), updateUserData = UpdateUserData(repository), addImageToStorage = AddImageToStorage(authRepository))
+
+    // Home
+    @Provides
+    fun provideHomeUseCase(profileRepository: ProfileRepository) = HomeUseCase(getUserData = GetUserData(profileRepository))
 
 
 }

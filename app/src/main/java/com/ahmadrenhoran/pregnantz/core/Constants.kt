@@ -16,7 +16,13 @@ object Constants {
 
     // Google Map Places
     // Specify the fields
-    val PLACE_FIELDS = listOf(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.RATING, Place.Field.PHONE_NUMBER)
+    val PLACE_FIELDS = listOf(
+        Place.Field.NAME,
+        Place.Field.ADDRESS,
+        Place.Field.LAT_LNG,
+        Place.Field.RATING,
+        Place.Field.PHONE_NUMBER
+    )
 
     // SHARED PREFERENCES
     const val IS_FORM_FILLED = "isFormFilled"
@@ -65,7 +71,8 @@ object Constants {
     )
 
     // Due date boundary
-    private val DUE_DATE_BOUNDARY_FIRST_DAY_LAST_PERIOD = LocalDate.now().minusWeeks(42)..LocalDate.now()
+    private val DUE_DATE_BOUNDARY_FIRST_DAY_LAST_PERIOD =
+        LocalDate.now().minusWeeks(42)..LocalDate.now()
     private val DUE_DATE_BOUNDARY_ESTIMATED_DUE_DATE =
         LocalDate.now()..LocalDate.now().plusWeeks(42)
 
@@ -93,6 +100,16 @@ object Constants {
         Manifest.permission.ACCESS_FINE_LOCATION
     )
 
+
+
 }
 
 data class DueDateMenu(val name: String, val boundary: ClosedRange<LocalDate>)
+data class PregnancyData(
+//    @DrawableRes val babyImage: Int,
+//    val babyInfo: String,
+    val nutritionInfo: List<String>,
+    val exercisesInfo: List<String>
+)
+
+data class ExerciseInfo(val exerciseName: String, val duration: Int)

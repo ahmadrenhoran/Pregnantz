@@ -3,6 +3,7 @@ package com.ahmadrenhoran.pregnantz.core
 import android.content.Context
 import android.graphics.Bitmap
 import android.location.Location
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.ahmadrenhoran.pregnantz.domain.model.User
 import com.google.android.gms.maps.model.BitmapDescriptor
@@ -163,5 +164,36 @@ object PregnancyUtils {
     fun getDueDays(localDate: LocalDate) =
         ChronoUnit.DAYS.between(localDate, LocalDate.now()).absoluteValue % 7
 
+    fun getCurrentWeek(dueDate: LocalDate): Int {
+        val today = LocalDate.now()
+        val daysToDueDate = ChronoUnit.DAYS.between(today, dueDate)
+        val weeks = (daysToDueDate / 7).toInt()
+        return 40 - weeks
+    }
+
+    fun getCurrentDays(dueDate: LocalDate): Int {
+        val today = LocalDate.now()
+        val daysToDueDate = ChronoUnit.DAYS.between(today, dueDate)
+        return daysToDueDate.toInt()
+    }
+
+    fun getTrimester(currentWeek: Int): String {
+        return if (currentWeek in 1..12) {
+            "First trimester"
+        } else if (currentWeek in 13..27) {
+            "Second trimester"
+        } else {
+            "Third trimester"
+        }
+
+    }
+
+    fun getPregnancyData(currentWeek: Int) {
+
+    }
+
 }
+
+
+
 

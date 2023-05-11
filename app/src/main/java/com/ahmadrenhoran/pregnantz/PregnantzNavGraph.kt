@@ -11,7 +11,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ahmadrenhoran.pregnantz.core.Constants
-import com.ahmadrenhoran.pregnantz.core.Constants.ALL_TAG
 import com.ahmadrenhoran.pregnantz.ui.component.PregnantzBottomNavigation
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzAuthScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.PregnantzHomeScreen
@@ -42,7 +41,6 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
     Scaffold(
         bottomBar = {
             if (appState.shouldShowBottomBar) {
-                Log.d(Constants.LOGIN_SCREEN_TAG, "PregnantzNavGraph: ")
                 PregnantzBottomNavigation(
                     navController = appState.navController,
                     items = Constants.BOTTOM_BAR_ITEM_LIST
@@ -141,7 +139,6 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
                     onHospitalClick = {
                         val result =
                             hospitalViewModel.getDeviceLocation(fusedLocationProviderClient)
-                        Log.d(ALL_TAG, "PregnantzNavGraph: " + result)
                         if (result) {
                             appState.navController.navigate(PregnantzToolsScreen.HospitalLocationScreen.name)
                         }

@@ -52,7 +52,6 @@ fun ProfileScreen(
 
     val user = uiState.user
 
-    Log.d(Constants.ALL_TAG, "HomeScreen: ${user.photoUrl}")
     Scaffold(
         modifier = modifier.padding(16.dp), bottomBar = {
             Button(

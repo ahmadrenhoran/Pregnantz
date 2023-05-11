@@ -60,7 +60,7 @@ fun WeightTool(
             try {
                 viewModel.setCurrentWeight(it.toFloat())
             } catch (e: NumberFormatException) {
-                Log.d(Constants.ALL_TAG, "WeightTool: " + e.message)
+
             }
         },
         onDismissRequest = {

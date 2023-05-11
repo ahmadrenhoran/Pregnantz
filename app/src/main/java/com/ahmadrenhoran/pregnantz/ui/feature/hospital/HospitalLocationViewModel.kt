@@ -63,7 +63,6 @@ class HospitalLocationViewModel @Inject constructor(private val useCase: Hospita
             val locationResult = fusedLocationProviderClient.lastLocation
             locationResult.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(Constants.ALL_TAG, "getDeviceLocation: ${task.result}")
                     if (task.result != null) {
                         setLastKnownLocation(task.result)
                         getNearbyHospital()
