@@ -87,6 +87,10 @@ object Constants {
             DueDateMenu(ESTIMATED_DUE_DATE, DUE_DATE_BOUNDARY_ESTIMATED_DUE_DATE)
         )
 
+    // Trimester
+    val FIRST_TRIMESTER = 1..12
+    val SECOND_TRIMESTER = 13..27
+    val THIRD_TRIMESTER = 28..42
 
     // TAG
     const val REGISTER_SCREEN_TAG = "registerScreenTag"
@@ -99,6 +103,7 @@ object Constants {
     val LOCATION_PERMISSIONS = listOf(
         Manifest.permission.ACCESS_FINE_LOCATION
     )
+
 
 
 

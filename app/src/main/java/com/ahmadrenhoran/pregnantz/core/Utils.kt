@@ -178,9 +178,9 @@ object PregnancyUtils {
     }
 
     fun getTrimester(currentWeek: Int): String {
-        return if (currentWeek in 1..12) {
+        return if (currentWeek in Constants.FIRST_TRIMESTER) {
             "First trimester"
-        } else if (currentWeek in 13..27) {
+        } else if (currentWeek in Constants.SECOND_TRIMESTER) {
             "Second trimester"
         } else {
             "Third trimester"

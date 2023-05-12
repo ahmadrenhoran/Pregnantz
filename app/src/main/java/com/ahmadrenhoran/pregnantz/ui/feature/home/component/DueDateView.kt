@@ -14,7 +14,9 @@ import java.time.LocalDate
 fun DueDateView(modifier: Modifier = Modifier, dueDate: LocalDate, currentWeek: Int, daysToGo: Int, trimester: String) {
     Card(modifier = modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(12.dp)) {
-            Text(text = "Week $currentWeek ($daysToGo days to go)", style = MaterialTheme.typography.displaySmall)
+            if (currentWeek <= 42) {
+                Text(text = "Week $currentWeek ($daysToGo days to go)", style = MaterialTheme.typography.displaySmall)
+            }
             Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
                 Text(text = "$trimester")
                 Text(text = "Due ${Utils.TimeFormatter(dueDate)}")

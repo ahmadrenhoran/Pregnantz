@@ -1,13 +1,10 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.profile
 
-import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -19,12 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ahmadrenhoran.pregnantz.core.Constants
 import com.ahmadrenhoran.pregnantz.core.DueDateMenu
 import com.ahmadrenhoran.pregnantz.core.Utils
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.domain.model.User
-import com.ahmadrenhoran.pregnantz.domain.usecase.profile.LogOut
 import com.ahmadrenhoran.pregnantz.ui.component.EditProfilePicture
 import com.ahmadrenhoran.pregnantz.ui.component.MenuSelectAge
 import com.ahmadrenhoran.pregnantz.ui.feature.form.component.AddImageToStorageResponse
