@@ -1,4 +1,5 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.home.component
+import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -8,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -35,10 +37,10 @@ fun NutritionView(modifier: Modifier = Modifier) {
                 }
             }
             Text(text = "- Folic Acid")
-            Text(text = "- Calcium")
+            Text(text = "- Calcium < 1000 mg each day")
             Text(text = "- Vitamin D")
-            Text(text = "- Protein")
-            Text(text = "- Iron Nutrition 27 mg each day")
+            Text(text = "- Omega-3 Fatty Acids")
+            Text(text = "- Elemental Iron < 30  mg each day")
 
             Spacer(modifier = Modifier.height(8.dp))
             AnimatedVisibility(visible = showMore) {

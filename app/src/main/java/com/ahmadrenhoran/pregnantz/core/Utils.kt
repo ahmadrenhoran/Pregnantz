@@ -3,7 +3,6 @@ package com.ahmadrenhoran.pregnantz.core
 import android.content.Context
 import android.graphics.Bitmap
 import android.location.Location
-import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.ahmadrenhoran.pregnantz.domain.model.User
 import com.google.android.gms.maps.model.BitmapDescriptor
@@ -147,9 +146,9 @@ object PregnancyUtils {
     }
 
     fun getFirstDayOfLastPeriodDueDate(localDate: LocalDate): String {
-        val days = 7
-        val months = 3
-        val year = 1
+        val days = 280
+        val months = 0
+        val year = 0
 
         val expectedDueDate = localDate.plusDays(days.toLong())
             .minusMonths(months.toLong())

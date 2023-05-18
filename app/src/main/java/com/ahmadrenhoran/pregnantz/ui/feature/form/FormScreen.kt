@@ -8,8 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.SpanStyle
@@ -22,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ahmadrenhoran.pregnantz.R
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.ui.component.EditProfilePicture
+import com.ahmadrenhoran.pregnantz.ui.component.EditProfilePicture2
 import com.ahmadrenhoran.pregnantz.ui.component.MenuSelectAge
 import com.ahmadrenhoran.pregnantz.ui.feature.form.component.AddDataUserToDatabaseResponse
 import com.ahmadrenhoran.pregnantz.ui.feature.form.component.AddImageToStorageResponse
@@ -36,6 +36,12 @@ fun FormScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState().value
     val scrollState = rememberScrollState()
+    var isFilled by remember {
+        mutableStateOf(false)
+    }
+    if (uiState.name.isNotEmpty() && uiState.age.isNotEmpty() && uiState.date.isNotEmpty()) {
+        isFilled = true
+    }
 
     if (viewModel.addImageToStorageResponse != Response.Loading && viewModel.addDataUserToDatabaseResponse != Response.Loading) {
         Scaffold(modifier = modifier.padding(24.dp), bottomBar = {
@@ -44,7 +50,7 @@ fun FormScreen(
                     .fillMaxWidth(), shape = MaterialTheme.shapes.small,
                 onClick = {
                     viewModel.addDataUserToDatabase()
-                }
+                }, enabled = isFilled
 
             ) {
                 Text(
@@ -66,7 +72,7 @@ fun FormScreen(
                 Spacer(modifier = Modifier.padding(12.dp))
                 EditProfilePicture(onUploadImage = { uri ->
                     viewModel.addImageToStorage(uri)
-                }, R.drawable.logo_light.toString())
+                }, uiState.imageUri.toString())
                 Spacer(modifier = Modifier.padding(12.dp))
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),

@@ -11,11 +11,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.ui.feature.home.component.*
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import java.time.LocalDate
 
 
@@ -35,7 +38,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), onProfileClick: () ->
         topBar = {
             TopBarContent(
                 name = uiState.user.name,
-                photoUrl = uiState.user.photoUrl,
+                photoUrl = viewModel.profileUrl.toString(),
                 onProfileClick = onProfileClick
             )
         }
@@ -58,7 +61,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), onProfileClick: () ->
             )
             HealthyTipsView(whatToDo = viewModel.whatToDo, whatToAvoid = viewModel.whatToAvoid)
             NutritionView()
-            ExerciseView()
+            ExerciseView(exercise = viewModel.exercise)
 
         }
 

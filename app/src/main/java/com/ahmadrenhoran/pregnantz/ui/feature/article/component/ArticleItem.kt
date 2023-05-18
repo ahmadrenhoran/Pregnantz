@@ -3,6 +3,7 @@ package com.ahmadrenhoran.pregnantz.ui.feature.article.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,9 +18,10 @@ import com.ahmadrenhoran.pregnantz.R
 import com.ahmadrenhoran.pregnantz.core.Utils
 import com.ahmadrenhoran.pregnantz.domain.model.Article
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArticleItem(modifier: Modifier = Modifier, article: Article) {
-    Card(modifier = modifier.fillMaxWidth()) {
+fun ArticleItem(modifier: Modifier = Modifier, article: Article, onArticleClick: (String) -> Unit) {
+    Card(modifier = modifier.fillMaxWidth(), onClick = { onArticleClick(article.url!!) }) {
         Row(
             modifier = Modifier
                 .fillMaxSize()

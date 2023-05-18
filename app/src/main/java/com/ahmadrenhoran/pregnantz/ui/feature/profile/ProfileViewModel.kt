@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahmadrenhoran.pregnantz.core.Constants
 import com.ahmadrenhoran.pregnantz.core.DueDateMenu
+import com.ahmadrenhoran.pregnantz.core.PregnancyUtils
 import com.ahmadrenhoran.pregnantz.core.Utils
 import com.ahmadrenhoran.pregnantz.domain.model.Response
 import com.ahmadrenhoran.pregnantz.domain.model.User
@@ -98,7 +99,7 @@ class ProfileViewModel @Inject constructor(private val useCase: ProfileUseCase) 
 
     fun getDueDate(): String {
         if (_uiState.value.dueDateMenu.name == Constants.FIRST_DAY_OF_LAST_PERIOD) {
-            return Utils.getFirstDayOfLastPeriodDueDate(LocalDate.parse(_uiState.value.user.dueDate))
+            return PregnancyUtils.getFirstDayOfLastPeriodDueDate(LocalDate.parse(_uiState.value.user.dueDate))
         } else { // Estimated Due Date
             return _uiState.value.user.dueDate
         }

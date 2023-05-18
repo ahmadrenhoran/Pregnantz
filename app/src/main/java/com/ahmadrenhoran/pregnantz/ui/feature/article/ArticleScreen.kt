@@ -1,5 +1,6 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.article
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -13,11 +14,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ahmadrenhoran.pregnantz.ui.feature.article.component.GetArticlesResponse
 
 @Composable
-fun ArticleScreen(modifier: Modifier = Modifier, viewModel: ArticleViewModel = hiltViewModel()) {
+fun ArticleScreen(modifier: Modifier = Modifier, viewModel: ArticleViewModel = hiltViewModel(), context: Context) {
 
     Column(modifier = modifier.padding(16.dp)) {
         Text(text = "Articles", fontSize = 24.sp, color = MaterialTheme.colorScheme.onBackground)
         Spacer(modifier = modifier.padding(8.dp))
-        GetArticlesResponse()
+        GetArticlesResponse(context = context)
     }
 }

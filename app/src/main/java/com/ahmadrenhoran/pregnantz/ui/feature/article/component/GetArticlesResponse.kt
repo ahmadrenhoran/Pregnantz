@@ -1,5 +1,8 @@
 package com.ahmadrenhoran.pregnantz.ui.feature.article.component
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,7 +17,7 @@ import com.ahmadrenhoran.pregnantz.ui.component.ProgressBar
 import com.ahmadrenhoran.pregnantz.ui.feature.article.ArticleViewModel
 
 @Composable
-fun GetArticlesResponse(viewModel: ArticleViewModel = hiltViewModel()) {
+fun GetArticlesResponse(viewModel: ArticleViewModel = hiltViewModel(), context: Context) {
     val uiState = viewModel.uiState.collectAsState()
     when(val response = viewModel.getArticleResponse) {
         is Response.Loading -> ProgressBar()
@@ -22,7 +25,10 @@ fun GetArticlesResponse(viewModel: ArticleViewModel = hiltViewModel()) {
             viewModel.setArticles(articles = articles)
             LazyColumn{
                 items(uiState.value.articles) { article ->
-                    ArticleItem(article = article)
+                    ArticleItem(article = article, onArticleClick = {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                        context.startActivity(intent)
+                    })
                     Spacer(modifier = Modifier.height(12.dp))
                 }
             }

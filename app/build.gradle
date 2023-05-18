@@ -146,6 +146,10 @@ dependencies {
     // For `compose`. Creates a `ChartStyle` based on an M3 Material Theme.
     implementation "com.patrykandpatrick.vico:compose-m3:1.6.5"
 
+    // SharedPreferences
+    implementation "androidx.preference:preference-ktx:1.2.0"
+
+
 
 
 

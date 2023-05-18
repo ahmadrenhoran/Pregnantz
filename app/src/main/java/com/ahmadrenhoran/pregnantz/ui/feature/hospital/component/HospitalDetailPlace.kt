@@ -31,6 +31,7 @@ fun HospitalDetailPlace(
 ) {
 
     AnimatedVisibility(visible = isShow) {
+        val isNumberAvailable = !place.noTelp.isNullOrEmpty()
         Dialog(onDismissRequest = onDismissRequest) {
             Card() {
                 Column(modifier = modifier.padding(24.dp)) {
@@ -40,7 +41,7 @@ fun HospitalDetailPlace(
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(text = place.address.toString())
-                    Button(modifier = Modifier.fillMaxWidth(), onClick = {
+                    Button(modifier = Modifier.fillMaxWidth(), enabled = isNumberAvailable, onClick = {
                         val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${place.noTelp}"))
                         context.startActivity(intent)
                     }) {

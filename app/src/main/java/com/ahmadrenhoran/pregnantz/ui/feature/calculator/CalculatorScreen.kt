@@ -35,7 +35,20 @@ fun CalculatorScreen(
         item {
             Text(text = "Calculator", style = MaterialTheme.typography.displayLarge)
             DueDate(
-                onDueDateChange = { viewModel.setDate(it) },
+                onDueDateChange = {
+                    viewModel.setDate(it)
+                    val weekList =
+                        if (uiState.dueDateMenu.name == Constants.FIRST_DAY_OF_LAST_PERIOD) {
+                            PregnancyUtils.getWeeksList(
+                                PregnancyUtils.getFirstDayOfLastPeriodDueDate(
+                                    LocalDate.parse(it)
+                                )
+                            )
+                        } else {
+                            PregnancyUtils.getWeeksList(it)
+                        }
+                    viewModel.setWeekList(weekList)
+                },
                 dueDate = uiState.date,
                 dueDateMenu = uiState.dueDateMenu,
                 dueDateMenuExpand = uiState.isDueDateMenuExpand,
@@ -48,8 +61,10 @@ fun CalculatorScreen(
                     viewModel.setDueDateMenuExpand(false)
                     val weekList = if (it.name == Constants.FIRST_DAY_OF_LAST_PERIOD) {
                         PregnancyUtils.getWeeksList(
-                                PregnancyUtils.getFirstDayOfLastPeriodDueDate(
-                                    LocalDate.parse(uiState.date)))
+                            PregnancyUtils.getFirstDayOfLastPeriodDueDate(
+                                LocalDate.parse(uiState.date)
+                            )
+                        )
                     } else {
                         PregnancyUtils.getWeeksList(uiState.date)
                     }

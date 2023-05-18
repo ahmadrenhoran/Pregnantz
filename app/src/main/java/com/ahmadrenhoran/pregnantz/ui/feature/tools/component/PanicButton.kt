@@ -29,6 +29,7 @@ import com.ahmadrenhoran.pregnantz.ui.feature.tools.ToolsViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import com.google.android.gms.location.LocationServices
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -39,6 +40,9 @@ fun PanicButton(
 ) {
     val locationPermissionsState = rememberPermissionState(Manifest.permission.SEND_SMS)
     val uiState = viewModel.uiState.collectAsState().value
+    LaunchedEffect(Unit) {
+        viewModel.getDeviceLocation(LocationServices.getFusedLocationProviderClient(context))
+    }
     Row(modifier = modifier) {
         Button(
             modifier = Modifier.weight(0.4f),
@@ -55,7 +59,7 @@ fun PanicButton(
                 if (locationPermissionsState.status.isGranted) {
                     val smsManager = SmsManager.getDefault()
                     val phoneNumbers = uiState.listPanicNumbers.map { it.number }
-                    val message = "Hello, ini adalah pesan SMS dari aplikasi saya"
+                    val message = "Something happens!, This is my current location https://www.google.com/maps/@${uiState.lastKnownLocation?.latitude},${uiState.lastKnownLocation?.longitude},16z"
                     for (phoneNumber in phoneNumbers) {
                         smsManager.sendTextMessage(phoneNumber, null, message, null, null)
                     }

@@ -22,6 +22,7 @@ import com.ahmadrenhoran.pregnantz.ui.feature.authentication.RegisterScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.calculator.CalculatorScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.form.FormScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.home.HomeScreen
+import com.ahmadrenhoran.pregnantz.ui.feature.home.HomeViewModel
 import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.hospital.HospitalLocationViewModel
 import com.ahmadrenhoran.pregnantz.ui.feature.profile.ProfileScreen
@@ -30,6 +31,7 @@ import com.ahmadrenhoran.pregnantz.ui.feature.tools.ToolsScreen
 import com.ahmadrenhoran.pregnantz.ui.feature.weight.WeightScreen
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 
@@ -77,11 +79,14 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
                     }
                 }
             }
+
             composable(route = PregnantzAuthScreen.Login.name) {
                 LoginScreen(
                     onClickableTextRegister = { appState.navController.navigate(route = PregnantzAuthScreen.Register.name) },
                     onSuccessSignIn = {
-                        if (Firebase.auth.currentUser!!.displayName?.isEmpty() == true) { // if user has not filled the form
+                        val displayName = Firebase.auth.currentUser!!.displayName // Users are only able to set their name in the form screen
+                        val isFormUnfilled = displayName?.isEmpty() ?: true
+                        if (isFormUnfilled) { // if user has not filled the form
                             appState.navController.navigateToAndPopUpTo(
                                 PregnantzAuthScreen.Form.name,
                                 PregnantzAuthScreen.Login.name
@@ -92,6 +97,7 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
                                 PregnantzAuthScreen.Login.name
                             )
                         }
+
                     }
                 )
             }
@@ -121,12 +127,14 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
 
             // Home
             composable(route = PregnantzHomeScreen.Home.name) {
+                val viewModel: HomeViewModel = hiltViewModel()
+                viewModel.getUserData()
                 HomeScreen(onProfileClick = { appState.navController.navigate(PregnantzOtherScreen.ProfileScreen.name) })
             }
 
             // Article
             composable(route = PregnantzHomeScreen.Article.name) {
-                ArticleScreen()
+                ArticleScreen(context = context)
             }
 
             composable(route = PregnantzHomeScreen.Tools.name) {
@@ -167,8 +175,16 @@ fun PregnantzNavGraph(modifier: Modifier = Modifier, context: Context) {
             // Other
             composable(route = PregnantzOtherScreen.ProfileScreen.name) {
                 ProfileScreen(onLogOut = {
+                    appState.navController.navigate(PregnantzAuthScreen.Login.name) {
+                        popUpTo(PregnantzAuthScreen.Form.name) {
+                            inclusive = true
+                        }
 
-                    appState.navController.navigate(PregnantzAuthScreen.Splash.name)
+                        popUpTo(PregnantzHomeScreen.Home.name) {
+                            inclusive = true
+                        }
+                    }
+
                 })
             }
         }
