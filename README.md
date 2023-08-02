@@ -53,6 +53,15 @@ Aplikasi ini menggunakan beberapa dependensi berikut:
 
 ![image](https://github.com/ahmadrenhoran/Pregnantz/assets/85774373/b7988bc9-1a4b-49cf-88f8-fdd93cb1dcc5)
 
+<h4>Login, Register, Form</h4>
+
+![image](https://github.com/ahmadrenhoran/Pregnantz/assets/85774373/fd21c076-428d-47a3-9bec-1f461e3cea83)
+![image](https://github.com/ahmadrenhoran/Pregnantz/assets/85774373/69b6644c-b76f-4886-b4b3-876da139d95b)
+![image](https://github.com/ahmadrenhoran/Pregnantz/assets/85774373/72d53485-8be3-41b4-9f8d-0664fb9c6251)
+
+
+
+
 
 
 
