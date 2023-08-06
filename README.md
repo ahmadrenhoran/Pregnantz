@@ -1,6 +1,4 @@
-![image](https://github.com/ahmadrenhoran/Pregnantz/assets/85774373/1c7d67ad-e0ad-4466-bb3b-85774d39c7e4)
-
-
+![Pregnancyz adv ](https://github.com/ahmadrenhoran/Pregnantz/assets/85774373/d8d021e1-c843-4e31-98e9-5715293ef1c2)
 
 <h1>Aplikasi Pregnancyz</h1>
 <p>Aplikasi Pregnancyz adalah sebuah aplikasi untuk monitoring dan panduan kepada ibu hamil. Aplikasi ini dikembangkan dengan menggunakan bahasa Kotlin dan Firebase serta menerapkan Clean Architecture. </p>
